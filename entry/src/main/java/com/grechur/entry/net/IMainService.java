@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -26,7 +27,7 @@ public interface IMainService {
      * @return
      */
     @GET("/article/list/{pageNum}/json")
-    Observable<BaseResponse<HomePageInfo>> homeArticle(@Query("pageNum") int pageNum);
+    Observable<BaseResponse<HomePageInfo>> homeArticle(@Path("pageNum") int pageNum);
 
     /**
      * 首页banner

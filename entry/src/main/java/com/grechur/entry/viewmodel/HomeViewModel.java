@@ -15,13 +15,15 @@ public class HomeViewModel extends BaseViewModel {
 
     public HomeViewModel() {
         mainModel = new MainModel();
+        mainModel.homeArticle(0);
     }
 
     @Override
     protected void create() {
         super.create();
 
-        mainModel.banner();
+//        mainModel.banner();
+
 
 
     }

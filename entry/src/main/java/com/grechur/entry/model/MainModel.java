@@ -19,19 +19,16 @@ import java.util.List;
  * @CreateDate: 2020/5/9 17:56
  */
 public class MainModel implements IMainModel{
-    MutableLiveData<List<ArticleInfo>> mData = new MutableLiveData<>();
-    MutableLiveData<ApiException> netError = new MutableLiveData<>();
+    public MutableLiveData<List<ArticleInfo>> mData = new MutableLiveData<>();
+    public MutableLiveData<ApiException> netError = new MutableLiveData<>();
 
-    MutableLiveData<List<BannerInfo>> mBanner = new MutableLiveData<>();
+    public MutableLiveData<List<BannerInfo>> mBanner = new MutableLiveData<>();
     @Override
     public void homeArticle(final int pageNum) {
         MainApi.getInstance().homeArticle(pageNum)
                 .subscribe(new BaseSubscriber<HomePageInfo>() {
                     @Override
                     public void onNext(HomePageInfo homePageInfo) {
-                        if(pageNum == 0){
-                            mData.setValue(null);
-                        }
                         if(homePageInfo!=null){
                             if(homePageInfo.getDatas()!=null&&!homePageInfo.getDatas().isEmpty()){
                                 mData.setValue(homePageInfo.getDatas());

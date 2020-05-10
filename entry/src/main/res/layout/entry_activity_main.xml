@@ -17,15 +17,15 @@
             android:id="@+id/entry_title_bar"
             bind:showEmptyView="@{vm.showEmptyView}"
             bind:title="@{vm.title}"
-            bind:showReturnView="@{vm.showReturnView}"/>
+            bind:showReturnView="@{vm.showReturnView}"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="54dp"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/bottom_bar"
-            android:layout_alignParentBottom="true"/>
+            android:layout_below="@+id/entry_title_bar"
+            android:layout_above="@+id/bottom_bar"/>
         <com.ashokvarma.bottomnavigation.BottomNavigationBar
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"

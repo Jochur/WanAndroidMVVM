@@ -30,7 +30,9 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleObserv
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    protected void create(){}
+    protected void create(){
+
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     protected void start(){}
