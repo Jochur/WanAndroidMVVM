@@ -40,7 +40,11 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        imageAdapter = new ImageAdapter(getContext(), viewModel.mBanners);
+        binding.banner.setAdapter(imageAdapter)
+                .setIndicator(new CircleIndicator(getContext()))
+                .setIndicatorNormalColorRes(R.color.indicator_color)
+                .setIndicatorSelectedColorRes(R.color.all_bg);
         mAdapter = new HomeAdapter(getContext(),viewModel.mData);
         binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecyclerView.setAdapter(mAdapter);
@@ -77,12 +81,8 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
             @Override
             public void onChanged(List<BannerInfo> bannerInfos) {
                 if(bannerInfos!=null&&!bannerInfos.isEmpty()) {
-                    viewModel.mBanners = bannerInfos;
-                    imageAdapter = new ImageAdapter(getContext(), viewModel.mBanners);
-                    binding.banner.setAdapter(imageAdapter)
-                            .setIndicator(new CircleIndicator(getContext()))
-                            .setIndicatorNormalColorRes(R.color.indicator_color)
-                            .setIndicatorSelectedColorRes(R.color.all_bg);
+                    viewModel.mBanners.addAll(bannerInfos) ;
+                    imageAdapter.notifyDataSetChanged();
                 }
 
             }
