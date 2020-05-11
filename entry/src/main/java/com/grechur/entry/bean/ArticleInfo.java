@@ -12,20 +12,20 @@ import java.util.List;
  * @CreateDate: 2020/5/9 17:46
  */
 public class ArticleInfo {
-//    private String apkLink;
-//    private int audit;
-//
-//    private boolean canEdit;
-//
-//    private boolean collect;
-//    private int courseId;
-//    private String desc;
-//    private String descMd;
-//    private String envelopePic;
-//    private boolean fresh;
-//    private int id;
-//    private String link;
-//
+    private String apkLink;
+    private int audit;
+
+    private boolean canEdit;
+
+    private boolean collect;
+    private int courseId;
+    private String desc;
+    private String descMd;
+    private String envelopePic;
+    private boolean fresh;
+    private int id;
+    private String link;
+
 //    private String niceShareDate;
 //    private String origin;
 //    private String prefix;
@@ -40,7 +40,7 @@ public class ArticleInfo {
 //    private int type;
 //    private int userId;
 //    private int visible;
-//    private int zan;
+    private int zan;
 
 
     private String title;
@@ -52,93 +52,93 @@ public class ArticleInfo {
     private String niceDate;
     private String shareUser;
 
-//    public String getApkLink() {
-//        return apkLink;
-//    }
-//
-//    public void setApkLink(String apkLink) {
-//        this.apkLink = apkLink;
-//    }
-//
-//    public int getAudit() {
-//        return audit;
-//    }
-//
-//    public void setAudit(int audit) {
-//        this.audit = audit;
-//    }
+    public String getApkLink() {
+        return apkLink;
+    }
 
-//    public boolean isCanEdit() {
-//        return canEdit;
-//    }
-//
-//    public void setCanEdit(boolean canEdit) {
-//        this.canEdit = canEdit;
-//    }
-//
-//    public boolean isCollect() {
-//        return collect;
-//    }
-//
-//    public void setCollect(boolean collect) {
-//        this.collect = collect;
-//    }
-//
-//    public int getCourseId() {
-//        return courseId;
-//    }
-//
-//    public void setCourseId(int courseId) {
-//        this.courseId = courseId;
-//    }
-//
-//    public String getDesc() {
-//        return desc;
-//    }
-//
-//    public void setDesc(String desc) {
-//        this.desc = desc;
-//    }
-//
-//    public String getDescMd() {
-//        return descMd;
-//    }
-//
-//    public void setDescMd(String descMd) {
-//        this.descMd = descMd;
-//    }
-//
-//    public String getEnvelopePic() {
-//        return envelopePic;
-//    }
-//
-//    public void setEnvelopePic(String envelopePic) {
-//        this.envelopePic = envelopePic;
-//    }
-//
-//    public boolean isFresh() {
-//        return fresh;
-//    }
-//
-//    public void setFresh(boolean fresh) {
-//        this.fresh = fresh;
-//    }
-//
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//
-//    public String getLink() {
-//        return link;
-//    }
-//
-//    public void setLink(String link) {
-//        this.link = link;
-//    }
+    public void setApkLink(String apkLink) {
+        this.apkLink = apkLink;
+    }
+
+    public int getAudit() {
+        return audit;
+    }
+
+    public void setAudit(int audit) {
+        this.audit = audit;
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public boolean isCollect() {
+        return collect;
+    }
+
+    public void setCollect(boolean collect) {
+        this.collect = collect;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getDescMd() {
+        return descMd;
+    }
+
+    public void setDescMd(String descMd) {
+        this.descMd = descMd;
+    }
+
+    public String getEnvelopePic() {
+        return envelopePic;
+    }
+
+    public void setEnvelopePic(String envelopePic) {
+        this.envelopePic = envelopePic;
+    }
+
+    public boolean isFresh() {
+        return fresh;
+    }
+
+    public void setFresh(boolean fresh) {
+        this.fresh = fresh;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
 //    public String getNiceShareDate() {
 //        return niceShareDate;
@@ -230,13 +230,13 @@ public class ArticleInfo {
 //        this.visible = visible;
 //    }
 //
-//    public int getZan() {
-//        return zan;
-//    }
-//
-//    public void setZan(int zan) {
-//        this.zan = zan;
-//    }
+    public int getZan() {
+        return zan;
+    }
+
+    public void setZan(int zan) {
+        this.zan = zan;
+    }
 
     public String getAuthor() {
         return author;

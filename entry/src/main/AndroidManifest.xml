@@ -2,7 +2,8 @@
     package="com.grechur.entry" >
     <uses-permission android:name="android.permission.INTERNET"/>
     <application>
-        <activity android:name="com.grechur.entry.MainActivity">
+        <activity android:name="com.grechur.entry.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

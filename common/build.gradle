@@ -63,4 +63,6 @@ dependencies {
     api "com.android.support:multidex:1.0.3"
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
     api dependencies.recyclerview
+    api dependencies.glide
+    annotationProcessor dependencies.glideCompiler
 }

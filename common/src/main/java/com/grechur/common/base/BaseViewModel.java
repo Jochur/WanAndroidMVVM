@@ -17,6 +17,17 @@ import com.alibaba.android.arouter.launcher.ARouter;
  */
 public abstract class BaseViewModel extends ViewModel implements LifecycleObserver {
     public MutableLiveData<Void> finish = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> canLoadMore = new MutableLiveData<>();
+
+    public void onRefresh(){
+
+    }
+
+    public void onLoad(int pageNum){
+
+    }
+
     /**
      * @param path 传送Activity的
      */

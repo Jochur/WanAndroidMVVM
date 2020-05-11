@@ -11,4 +11,7 @@ public class Constants {
 
     public static final String REMEMBER_PWD = "remPas";
     public static final String user_name = "";
+
+    public static final String INTENT_URL = "url";
+    public static final String INTENT_TITLE = "title";
 }

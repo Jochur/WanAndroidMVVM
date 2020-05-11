@@ -1,6 +1,7 @@
 package com.grechur.entry.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.grechur.common.base.BaseFragment;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
 import com.grechur.entry.adapter.HomeAdapter;
+import com.grechur.entry.adapter.ImageAdapter;
 import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.bean.BannerInfo;
 import com.grechur.entry.databinding.EntryFragmentHomeBinding;
@@ -23,6 +25,7 @@ import com.grechur.net.ApiException;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,22 +33,24 @@ import java.util.List;
 public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeBinding> {
 
     private HomeAdapter mAdapter;
-    private List<ArticleInfo> mData;
 
-    private int pageNum = 0;
+    private ImageAdapter imageAdapter;
+
+
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mData = new ArrayList<>();
-        mAdapter  = new HomeAdapter(getContext(),mData);
+
+        mAdapter = new HomeAdapter(getContext(),viewModel.mData);
         binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecyclerView.setAdapter(mAdapter);
-
-        viewModel.mainModel.mData.observe(this, new Observer<List<ArticleInfo>>() {
+        viewModel.mLiveData.observe(this, new Observer<List<ArticleInfo>>() {
             @Override
             public void onChanged(List<ArticleInfo> articleInfos) {
                 if(articleInfos!=null&&!articleInfos.isEmpty()) {
-                    mData.addAll(articleInfos);
+                    Log.e("BaseFragment","articleInfos:"+articleInfos.size()+" viewModel.mData:"+viewModel.mData.size());
+                    viewModel.mData.addAll(articleInfos);
+                    Log.e("BaseFragment"," viewModel.mData:"+viewModel.mData.size());
                     mAdapter.notifyDataSetChanged();
                 }
                 if(binding.smartRefreshLayout.getState() == RefreshState.Loading){
@@ -56,7 +61,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
                 }
             }
         });
-        viewModel.mainModel.netError.observe(this, new Observer<ApiException>() {
+        viewModel.netError.observe(this, new Observer<ApiException>() {
             @Override
             public void onChanged(ApiException e) {
                 ToastUtils.show(e.getMessage());
@@ -68,27 +73,34 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
                 }
             }
         });
-        viewModel.mainModel.mBanner.observe(this, new Observer<List<BannerInfo>>() {
+        viewModel.mLiveBanner.observe(this, new Observer<List<BannerInfo>>() {
             @Override
             public void onChanged(List<BannerInfo> bannerInfos) {
                 if(bannerInfos!=null&&!bannerInfos.isEmpty()) {
-                    mAdapter.setmBanner(bannerInfos);
+                    viewModel.mBanners = bannerInfos;
+                    imageAdapter = new ImageAdapter(getContext(), viewModel.mBanners);
+                    binding.banner.setAdapter(imageAdapter)
+                            .setIndicator(new CircleIndicator(getContext()))
+                            .setIndicatorNormalColorRes(R.color.indicator_color)
+                            .setIndicatorSelectedColorRes(R.color.all_bg);
                 }
 
             }
         });
+
+
         binding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                pageNum ++;
-                viewModel.mainModel.homeArticle(pageNum);
+                viewModel.pageNum ++;
+                viewModel.onLoad(viewModel.pageNum);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mData.clear();
-                pageNum = 0;
-                viewModel.mainModel.homeArticle(pageNum);
+                viewModel.mData.clear();
+                viewModel.pageNum = 0;
+                viewModel.onRefresh();
             }
         });
     }
@@ -96,5 +108,22 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
     @Override
     protected int getLayoutId() {
         return R.layout.entry_fragment_home;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        binding.banner.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        binding.banner.stop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

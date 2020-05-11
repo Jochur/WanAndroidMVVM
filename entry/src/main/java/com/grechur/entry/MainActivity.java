@@ -2,6 +2,7 @@ package com.grechur.entry;
 
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,17 +15,13 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.grechur.common.base.BaseActivity;
 import com.grechur.entry.databinding.EntryActivityMainBinding;
 import com.grechur.entry.fragment.HomeFragment;
+import com.grechur.entry.fragment.SencondFragment;
 import com.grechur.entry.viewmodel.MainViewModel;
 
 
 public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBinding> implements BottomNavigationBar.OnTabSelectedListener{
 
-    private Fragment currentFragment;
-    private HomeFragment homeFragment;
-    private HomeFragment homeFragment1;
-    private HomeFragment homeFragment2;
-    private HomeFragment homeFragment3;
-    private HomeFragment homeFragment4;
+
 
 //    @Override
 //    protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,15 +58,10 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
                 .setActiveColor(R.color.all_bg)
                 .setMode(BottomNavigationBar.MODE_FIXED)
                 .initialise();
-        homeFragment = new HomeFragment();
-        homeFragment1 = new HomeFragment();
-        homeFragment2 = new HomeFragment();
-        homeFragment3 = new HomeFragment();
-        homeFragment4 = new HomeFragment();
-        currentFragment = homeFragment;
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container, homeFragment)
-                .show(homeFragment).commit();
+        transaction.add(R.id.container, viewModel.homeFragment)
+                .show(viewModel.homeFragment).commit();
         binding.bottomBar.setTabSelectedListener(this);
     }
 
@@ -84,23 +76,23 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
         switch (position){
             case 0:
                 viewModel.title.set("首页");
-                showFragment(homeFragment);
+                showFragment(viewModel.homeFragment);
                 break;
             case 1:
                 viewModel.title.set("体系");
-                showFragment(homeFragment1);
+                showFragment(viewModel.homeFragment1);
                 break;
             case 2:
                 viewModel.title.set("导航");
-                showFragment(homeFragment2);
+                showFragment(viewModel.homeFragment2);
                 break;
             case 3:
                 viewModel.title.set("项目");
-                showFragment(homeFragment3);
+                showFragment(viewModel.homeFragment3);
                 break;
             case 4:
                 viewModel.title.set("我的");
-                showFragment(homeFragment4);
+                showFragment(viewModel.homeFragment4);
                 break;
         }
     }
@@ -119,10 +111,10 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
      * 展示Fragment
      */
     private void showFragment(Fragment fragment) {
-        if (currentFragment != fragment) {
+        if (viewModel.currentFragment != fragment) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(currentFragment);
-            currentFragment = fragment;
+            transaction.hide(viewModel.currentFragment);
+            viewModel.currentFragment = fragment;
             if (!fragment.isAdded()) {
                 transaction.add(R.id.container, fragment).show(fragment).commit();
             } else {

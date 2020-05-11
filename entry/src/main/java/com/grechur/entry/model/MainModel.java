@@ -1,5 +1,7 @@
 package com.grechur.entry.model;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.entry.bean.ArticleInfo;
@@ -19,10 +21,18 @@ import java.util.List;
  * @CreateDate: 2020/5/9 17:56
  */
 public class MainModel implements IMainModel{
-    public MutableLiveData<List<ArticleInfo>> mData = new MutableLiveData<>();
-    public MutableLiveData<ApiException> netError = new MutableLiveData<>();
+    public MutableLiveData<List<ArticleInfo>> mData;
+    public MutableLiveData<ApiException> netError;
 
-    public MutableLiveData<List<BannerInfo>> mBanner = new MutableLiveData<>();
+    public MutableLiveData<List<BannerInfo>> mBanner;
+
+
+    public MainModel(MutableLiveData<List<ArticleInfo>> mData, MutableLiveData<ApiException> netError, MutableLiveData<List<BannerInfo>> mBanner) {
+        this.mData = mData;
+        this.netError = netError;
+        this.mBanner = mBanner;
+    }
+
     @Override
     public void homeArticle(final int pageNum) {
         MainApi.getInstance().homeArticle(pageNum)
@@ -30,7 +40,9 @@ public class MainModel implements IMainModel{
                     @Override
                     public void onNext(HomePageInfo homePageInfo) {
                         if(homePageInfo!=null){
+
                             if(homePageInfo.getDatas()!=null&&!homePageInfo.getDatas().isEmpty()){
+                                Log.e("BaseFragment","pageNum:"+pageNum);
                                 mData.setValue(homePageInfo.getDatas());
                             }
                         }

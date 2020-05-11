@@ -1,6 +1,7 @@
 package com.grechur.common.base;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,16 +30,28 @@ public abstract class BaseFragment<VM extends BaseViewModel,VDB extends ViewData
     protected VM viewModel;
     protected VDB binding;
 
+
+    private View rootView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
-        binding = DataBindingUtil.inflate(inflater, getLayoutId(),container,false);
-        //所有布局中dababinding对象变量名称都是vm
-        viewModel = new ViewModelProvider(getActivity()).get(getTClass());
-        binding.setVariable(BR.vm,viewModel);
+        if(rootView == null){
+            binding = DataBindingUtil.inflate(inflater, getLayoutId(),container,false);
+            //所有布局中dababinding对象变量名称都是vm
+            viewModel = new ViewModelProvider(this).get(getTClass());
+            Log.e("BaseFragment","viewModel:"+viewModel.toString());
+            binding.setVariable(BR.vm,viewModel);
+            rootView = binding.getRoot();
+        }else{
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null){
+                parent.removeView(rootView);
+            }
+        }
         initView(savedInstanceState);
-        return binding.getRoot();
+        return rootView;
     }
 
 

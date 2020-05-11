@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data >
+        <variable
+            name="article"
+            type="com.grechur.entry.bean.ArticleInfo" />
+
+        <variable
+            name="adapter"
+            type="com.grechur.entry.adapter.HomeAdapter" />
+
+        <variable
+            name="position"
+            type="int" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:background="@drawable/entry_home_item_bg"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+    </RelativeLayout>
+</layout>
