@@ -9,9 +9,13 @@ package com.grechur.common.contant;
  */
 public class RouterSchame {
 
-    public static final String MAIN_ACTIVITY = "/main/main_activity";
+    public static final String MAIN_ACTIVITY = "/entry/main_activity";
+    public static final String SYSTEM_ARTICLE_ACTIVITY = "/entry/system_article_activity";
 
 
     public static final String LOGIN_ACTIVITY = "/login/login_activity";
     public static final String REGISTER_ACTIVITY = "/login/register_activity";
+
+    public static final String WEB_VIEW_ACTIVITY = "/common/web_view_activity";
+
 }

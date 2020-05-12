@@ -1,8 +1,12 @@
 package com.grechur.entry.net.impl;
 
 import com.grechur.common.DefaultHttpService;
+import com.grechur.common.base.BaseFragment;
+import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.bean.BannerInfo;
+import com.grechur.entry.bean.Children;
 import com.grechur.entry.bean.HomePageInfo;
+import com.grechur.entry.bean.NavigationInfo;
 import com.grechur.entry.net.IMainService;
 import com.grechur.net.BaseTransformer;
 
@@ -42,5 +46,21 @@ public class MainApi {
 
     public Observable<List<BannerInfo>> banner(){
         return mainService.banner().compose(BaseTransformer.<List<BannerInfo>>applyTransform());
+    }
+
+    public Observable<List<ArticleInfo>> topArticle(){
+        return mainService.topArticle().compose(BaseTransformer.<List<ArticleInfo>>applyTransform());
+    }
+
+    public Observable<List<Children>> systemTree(){
+        return mainService.systemTree().compose(BaseTransformer.<List<Children>>applyTransform());
+    }
+
+    public Observable<HomePageInfo> systemArticle(int pageNum,int cid){
+        return mainService.systemArticle(pageNum, cid).compose(BaseTransformer.<HomePageInfo>applyTransform());
+    }
+
+    public Observable<List<NavigationInfo>> navigation(){
+        return mainService.navigation().compose(BaseTransformer.<List<NavigationInfo>>applyTransform());
     }
 }

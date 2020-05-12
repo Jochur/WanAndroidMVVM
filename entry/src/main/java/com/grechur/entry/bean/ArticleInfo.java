@@ -26,20 +26,20 @@ public class ArticleInfo {
     private int id;
     private String link;
 
-//    private String niceShareDate;
-//    private String origin;
-//    private String prefix;
-//    private String projectLink;
-//    private int publishTime;
-//    private int selfVisible;
-//    private int shareDate;
+    private String niceShareDate;
+    private String origin;
+    private String prefix;
+    private String projectLink;
+    private long publishTime;
+    private int selfVisible;
+    private long shareDate;
 
 
 //    private List<String> tags;
 
-//    private int type;
-//    private int userId;
-//    private int visible;
+    private int type;
+    private int userId;
+    private int visible;
     private int zan;
 
 
@@ -51,6 +51,94 @@ public class ArticleInfo {
     private String chapterName;
     private String niceDate;
     private String shareUser;
+
+    public String getNiceShareDate() {
+        return niceShareDate;
+    }
+
+    public void setNiceShareDate(String niceShareDate) {
+        this.niceShareDate = niceShareDate;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getProjectLink() {
+        return projectLink;
+    }
+
+    public void setProjectLink(String projectLink) {
+        this.projectLink = projectLink;
+    }
+
+    public long getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(long publishTime) {
+        this.publishTime = publishTime;
+    }
+
+    public int getSelfVisible() {
+        return selfVisible;
+    }
+
+    public void setSelfVisible(int selfVisible) {
+        this.selfVisible = selfVisible;
+    }
+
+    public long getShareDate() {
+        return shareDate;
+    }
+
+    public void setShareDate(long shareDate) {
+        this.shareDate = shareDate;
+    }
+
+//    public List<String> getTags() {
+//        return tags;
+//    }
+//
+//    public void setTags(List<String> tags) {
+//        this.tags = tags;
+//    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getVisible() {
+        return visible;
+    }
+
+    public void setVisible(int visible) {
+        this.visible = visible;
+    }
 
     public String getApkLink() {
         return apkLink;
@@ -140,96 +228,6 @@ public class ArticleInfo {
         this.link = link;
     }
 
-//    public String getNiceShareDate() {
-//        return niceShareDate;
-//    }
-//
-//    public void setNiceShareDate(String niceShareDate) {
-//        this.niceShareDate = niceShareDate;
-//    }
-//
-//    public String getOrigin() {
-//        return origin;
-//    }
-//
-//    public void setOrigin(String origin) {
-//        this.origin = origin;
-//    }
-//
-//    public String getPrefix() {
-//        return prefix;
-//    }
-//
-//    public void setPrefix(String prefix) {
-//        this.prefix = prefix;
-//    }
-//
-//    public String getProjectLink() {
-//        return projectLink;
-//    }
-//
-//    public void setProjectLink(String projectLink) {
-//        this.projectLink = projectLink;
-//    }
-//
-//    public int getPublishTime() {
-//        return publishTime;
-//    }
-//
-//    public void setPublishTime(int publishTime) {
-//        this.publishTime = publishTime;
-//    }
-//
-//    public int getSelfVisible() {
-//        return selfVisible;
-//    }
-//
-//    public void setSelfVisible(int selfVisible) {
-//        this.selfVisible = selfVisible;
-//    }
-//
-//    public int getShareDate() {
-//        return shareDate;
-//    }
-//
-//    public void setShareDate(int shareDate) {
-//        this.shareDate = shareDate;
-//    }
-//
-
-
-//    public List<String> getTags() {
-//        return tags;
-//    }
-//
-//    public void setTags(List<String> tags) {
-//        this.tags = tags;
-//    }
-
-//    public int getType() {
-//        return type;
-//    }
-//
-//    public void setType(int type) {
-//        this.type = type;
-//    }
-//
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
-//
-//    public int getVisible() {
-//        return visible;
-//    }
-//
-//    public void setVisible(int visible) {
-//        this.visible = visible;
-//    }
-//
     public int getZan() {
         return zan;
     }

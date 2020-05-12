@@ -17,12 +17,12 @@ android {
         resourcePrefix("entry_")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
-        dataBinding{
+        dataBinding {
             enabled = true
         }
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName : project.getName()]
+                arguments = [moduleName: project.getName()]
             }
         }
     }
@@ -41,6 +41,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -49,6 +50,7 @@ dependencies {
     implementation dependencies.banner
     annotationProcessor dependencies.router_compile
     implementation project(':common')
+    implementation dependencies.flexbox
 }
 //////// 打包发布配置开始 ////////
 apply plugin: 'maven'
@@ -81,3 +83,4 @@ artifacts {
 }
 
 //////// 打包发布配置结束 ////////
+

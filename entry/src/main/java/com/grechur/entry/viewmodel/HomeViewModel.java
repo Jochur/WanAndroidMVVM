@@ -28,6 +28,8 @@ public class HomeViewModel extends BaseViewModel {
 
     public MutableLiveData<List<BannerInfo>> mLiveBanner = new MutableLiveData<>();
 
+    public MutableLiveData<List<ArticleInfo>> mTopData = new MutableLiveData<>();
+
     public List<ArticleInfo> mData;
 
     public List<BannerInfo> mBanners;
@@ -35,9 +37,10 @@ public class HomeViewModel extends BaseViewModel {
     public HomeViewModel() {
         Log.e("BaseFragment","HomeViewModel()");
         if(mainModel == null) {
-            mainModel = new MainModel(mLiveData, netError, mLiveBanner);
+            mainModel = new MainModel(mLiveData, netError, mLiveBanner,mTopData);
             mainModel.banner();
             mainModel.homeArticle(0);
+            mainModel.topArticle();
         }
         if(mData == null) {
             mData = new ArrayList<>();

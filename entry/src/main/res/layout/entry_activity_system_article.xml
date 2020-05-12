@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.grechur.entry.viewmodel.SystemArticleViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/title_bar"
+            android:id="@+id/system_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            bind:showEmptyView="@{vm.showEmptyView}"
+            bind:title="@{vm.title}"
+            bind:showReturnView="@{vm.showReturnView}"
+            />
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/system_smart_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/system_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+</layout>

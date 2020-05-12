@@ -11,4 +11,7 @@ public interface IMainModel {
     void homeArticle(int pageNum);
 
     void banner();
+
+    void topArticle();
+
 }

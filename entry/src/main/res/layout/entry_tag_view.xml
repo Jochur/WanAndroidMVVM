@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="children"
+            type="com.grechur.entry.bean.Children" />
+        <variable
+            name="tagView"
+            type="com.grechur.entry.view.TagView" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+
+        >
+        <TextView
+            android:id="@+id/entry_tv_tag_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text = "androidstudio相关"
+            android:text="@{children.name}"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:background="@drawable/entry_tag_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"/>
+    </LinearLayout>
+
+</layout>
+

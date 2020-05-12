@@ -26,11 +26,14 @@ public class MainModel implements IMainModel{
 
     public MutableLiveData<List<BannerInfo>> mBanner;
 
+    public MutableLiveData<List<ArticleInfo>> mTopData;
 
-    public MainModel(MutableLiveData<List<ArticleInfo>> mData, MutableLiveData<ApiException> netError, MutableLiveData<List<BannerInfo>> mBanner) {
+
+    public MainModel(MutableLiveData<List<ArticleInfo>> mData, MutableLiveData<ApiException> netError, MutableLiveData<List<BannerInfo>> mBanner, MutableLiveData<List<ArticleInfo>> mTopData) {
         this.mData = mData;
         this.netError = netError;
         this.mBanner = mBanner;
+        this.mTopData = mTopData;
     }
 
     @Override
@@ -72,4 +75,24 @@ public class MainModel implements IMainModel{
                     }
                 });
     }
+
+    @Override
+    public void topArticle() {
+        MainApi.getInstance().topArticle()
+                .subscribe(new BaseSubscriber<List<ArticleInfo>>() {
+                    @Override
+                    public void onNext(List<ArticleInfo> articleInfos) {
+                        if(articleInfos!=null&&!articleInfos.isEmpty()){
+                            mTopData.setValue(articleInfos);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+                });
+    }
+
+
 }

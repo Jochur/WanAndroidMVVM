@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data >
+        <import type="android.graphics.Color"/>
+        <variable
+            name="children"
+            type="com.grechur.entry.bean.Children" />
+
+        <variable
+            name="adapter"
+            type="com.grechur.entry.adapter.SystemAdapter" />
+
+        <variable
+            name="position"
+            type="int" />
+    </data>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="vertical"
+    android:background='@{children.hasSelect?Color.parseColor("#66CCFF"):Color.WHITE}'
+    android:onClick="@{()->adapter.itemClick(children,position)}">
+
+    <TextView
+        android:id="@+id/entry_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_toRightOf="@+id/entry_item_zan"
+        tools:text="Kotlin 的 Lambda"
+        android:text="@{children.name}"
+        android:textSize="16sp"
+        android:textColor='@{children.hasSelect?Color.WHITE:Color.parseColor("#333333")}'
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cecece"/>
+</LinearLayout>
+</layout>

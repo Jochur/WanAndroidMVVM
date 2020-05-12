@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import com.grechur.common.base.BaseViewModel;
 import com.grechur.entry.fragment.HomeFragment;
 import com.grechur.entry.fragment.SencondFragment;
+import com.grechur.entry.fragment.SystemFragment;
 
 /**
  * @ProjectName: ToolsDemo
@@ -22,14 +23,14 @@ public class MainViewModel extends BaseViewModel {
 
     public Fragment currentFragment;
     public HomeFragment homeFragment;
-    public SencondFragment homeFragment1;
+    public SystemFragment systemFragment;
     public SencondFragment homeFragment2;
     public SencondFragment homeFragment3;
     public SencondFragment homeFragment4;
 
     public MainViewModel() {
         homeFragment = new HomeFragment();
-        homeFragment1 = new SencondFragment();
+        systemFragment = new SystemFragment();
         homeFragment2 = new SencondFragment();
         homeFragment3 = new SencondFragment();
         homeFragment4 = new SencondFragment();

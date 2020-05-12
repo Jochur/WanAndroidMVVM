@@ -24,23 +24,29 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.grechur.common.R;
 import com.grechur.common.base.SelfApplication;
 import com.grechur.common.contant.Constants;
+import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.view.WebLoadView;
 
 import java.util.List;
 
+@Route(path = RouterSchame.WEB_VIEW_ACTIVITY)
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class WebViewActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     WebLoadView     web_load_view;
     WebView         webView;
-    TextView        title;
+    TextView        tv_title;
     ImageView       iv_back;
-    private String mUrl = "";
-    private String mTitle = "";
+    @Autowired
+    String url = "";
+    @Autowired
+    String title = "";
 
 
     @Override
@@ -50,13 +56,13 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
 
         web_load_view = findViewById(R.id.web_load_view);
         webView = findViewById(R.id.wv_web);
-        title = findViewById(R.id.title);
+        tv_title = findViewById(R.id.title);
         iv_back = findViewById(R.id.iv_back);
 
-        mUrl = getIntent().getStringExtra(Constants.INTENT_URL);
-        mTitle = getIntent().getStringExtra(Constants.INTENT_TITLE);
+        url = getIntent().getStringExtra(Constants.INTENT_URL);
+        title = getIntent().getStringExtra(Constants.INTENT_TITLE);
 
-        title.setText(mTitle);
+        tv_title.setText(title);
 
         //声明WebSettings子类
         WebSettings webSettings = webView.getSettings();
@@ -70,7 +76,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
         webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
 
-        webView.loadUrl(mUrl);
+        webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {

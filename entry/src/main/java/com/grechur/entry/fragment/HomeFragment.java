@@ -88,6 +88,16 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
             }
         });
 
+        viewModel.mTopData.observe(this, new Observer<List<ArticleInfo>>() {
+            @Override
+            public void onChanged(List<ArticleInfo> articleInfos) {
+                if(articleInfos!=null&&!articleInfos.isEmpty()) {
+                    viewModel.mData.addAll(0,articleInfos);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
 
         binding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override

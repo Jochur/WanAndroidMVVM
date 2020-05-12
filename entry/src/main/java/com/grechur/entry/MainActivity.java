@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
                 break;
             case 1:
                 viewModel.title.set("体系");
-                showFragment(viewModel.homeFragment1);
+                showFragment(viewModel.systemFragment);
                 break;
             case 2:
                 viewModel.title.set("导航");
