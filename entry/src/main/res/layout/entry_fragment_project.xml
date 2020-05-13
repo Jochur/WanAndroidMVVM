@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="com.grechur.entry.viewmodel.NavigationViewModel" />
+            type="com.grechur.entry.viewmodel.ProjectViewModel" />
     </data>
 
     <LinearLayout
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/navigation_tab_layout"
+            android:id="@+id/project_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             app:tabIndicatorHeight="2dp"
@@ -20,7 +20,7 @@
             app:tabMode="scrollable"
             android:background="@color/all_bg"/>
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/navi_view_page"
+            android:id="@+id/project_view_page"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

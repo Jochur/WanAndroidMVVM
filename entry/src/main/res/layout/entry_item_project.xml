@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="article"
+            type="com.grechur.entry.bean.ArticleInfo" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="adapter"
+            type="com.grechur.entry.adapter.ProjectArticleAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/entry_home_item_bg"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
+        android:onClick="@{()->adapter.onItemClick(article,position)}">
+        <ImageView
+            android:id="@+id/iv_project_img"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:src="@{article.envelopePic}"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            >
+            <LinearLayout
+                android:id="@+id/ll_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/iv_project_head"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@{article.envelopePic}"/>
+                <TextView
+                    android:id="@+id/tv_project_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    tools:text="这是文章标题"
+                    android:text="@{article.title}"
+                    android:textColor="@color/entry_title_text"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:maxLength="12"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_project_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/ll_top"
+                tools:text="一款基于douban及ONE API开发的资讯类的开源项目。项目采取的是okhttp + MVP架构开发。"
+                android:text="@{article.desc}"
+                android:textSize="14sp"
+                android:textColor="@color/entry_message_text"
+                android:maxLength="80"
+                android:maxLines="3"
+                android:lines="3"
+                android:ellipsize="end"
+                />
+            <TextView
+                android:id="@+id/tv_project_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"作者："+article.author}'
+                tools:text="作者：lengjiye-lz"
+                android:textSize="14sp"
+                android:textColor="@color/entry_label_text"
+                android:layout_below="@+id/tv_project_desc"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"类型："+article.superChapterName}'
+                tools:text="类型：开源项目主Tab"
+                android:textSize="14sp"
+                android:textColor="@color/entry_label_text"
+                android:layout_below="@+id/tv_project_author"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/tv_project_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                tools:text="时间：2018-05-08 05:12"
+                android:text='"时间："+@{article.niceDate}'
+                android:textColor="@color/entry_info_text"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/tv_project_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="项目链接"
+                android:textColor="@color/all_bg"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:onClick="@{()->adapter.onLinkClick(article,position)}"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</layout>
+

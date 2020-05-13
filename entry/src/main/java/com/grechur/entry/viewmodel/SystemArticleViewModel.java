@@ -1,5 +1,7 @@
 package com.grechur.entry.viewmodel;
 
+import android.view.View;
+
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
@@ -30,14 +32,20 @@ public class SystemArticleViewModel extends BaseViewModel {
     public MutableLiveData<ApiException> mError = new MutableLiveData<>();
     public MutableLiveData<List<ArticleInfo>> mArticleData = new MutableLiveData<>();
 
-    public MutableLiveData<Integer> totalPage = new MutableLiveData<>();
+    public MutableLiveData<Boolean> totalPage = new MutableLiveData<>();
 
     public SystemArticleViewModel() {
         systemModel = new SystemModel(null,mError,mArticleData);
         systemModel.setTotalPage(totalPage);
     }
 
-    public void getSystemArticle(int pageNum,int cid){
+    @Override
+    protected void create() {
+        super.create();
+        showReturnView.set(true);
+    }
+
+    public void getSystemArticle(int pageNum, int cid){
         systemModel.systemArticle(pageNum,cid);
     }
 

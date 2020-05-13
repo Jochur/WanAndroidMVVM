@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.grechur.common.contant.Constants;
-import com.grechur.common.ui.WebViewActivity;
+import com.grechur.common.contant.RouterSchame;
 import com.grechur.entry.bean.BannerInfo;
-import com.grechur.entry.generated.callback.OnClickListener;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
@@ -53,11 +53,16 @@ public class ImageAdapter extends BannerAdapter<BannerInfo, ImageAdapter.BannerV
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(context, WebViewActivity.class);
-                intent.putExtra(Constants.INTENT_URL,data.getUrl());
-                intent.putExtra(Constants.INTENT_TITLE,data.getTitle());
-                context.startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClass(context, WebViewActivity.class);
+//                intent.putExtra(Constants.INTENT_URL,data.getUrl());
+//                intent.putExtra(Constants.INTENT_TITLE,data.getTitle());
+//                context.startActivity(intent);
+                ARouter.getInstance()
+                        .build(RouterSchame.WEB_VIEW_ACTIVITY)
+                        .withString(Constants.INTENT_URL,data.getUrl())
+                        .withString(Constants.INTENT_TITLE,data.getTitle())
+                        .navigation();
             }
         });
     }

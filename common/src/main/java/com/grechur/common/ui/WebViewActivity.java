@@ -58,6 +58,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         webView = findViewById(R.id.wv_web);
         tv_title = findViewById(R.id.title);
         iv_back = findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(this);
 
         url = getIntent().getStringExtra(Constants.INTENT_URL);
         title = getIntent().getStringExtra(Constants.INTENT_TITLE);

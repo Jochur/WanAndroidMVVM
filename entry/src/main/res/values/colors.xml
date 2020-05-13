@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="entry_title_text">#333333</color>
+    <color name="entry_label_text">#999999</color>
+    <color name="entry_message_text">#666666</color>
+    <color name="entry_info_text">#cecece</color>
+</resources>

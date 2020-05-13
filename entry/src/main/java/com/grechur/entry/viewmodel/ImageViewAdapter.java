@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
+import com.bumptech.glide.Glide;
 import com.grechur.entry.R;
 
 public class ImageViewAdapter {
@@ -21,21 +22,13 @@ public class ImageViewAdapter {
     }
 
 
-//    @BindingAdapter("imageUrl")
-//    public static void setSrc(ImageView imageView, String url) {
-//        Glide.with(imageView.getContext()).load(url)
-//                .placeholder(R.mipmap.ic_launcher)
-//                .into(imageView);
-//    }
-//
-//
-//    @BindingAdapter({"app:imageUrl", "app:placeHolder", "app:error"})
-//    public static void loadImage(ImageView imageView, String url, Drawable holderDrawable, Drawable errorDrawable) {
-//        Glide.with(imageView.getContext())
-//                .load(url)
-//                .placeholder(holderDrawable)
-//                .error(errorDrawable)
-//                .into(imageView);
-//    }
+
+    @BindingAdapter("android:src")
+    public static void setSrc(ImageView imageView, String url) {
+        Glide.with(imageView.getContext()).load(url)
+                .placeholder(R.drawable.entry_home_sel)
+                .into(imageView);
+    }
+
 
 }

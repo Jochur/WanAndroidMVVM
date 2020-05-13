@@ -62,4 +62,16 @@ public interface IMainService {
      */
     @GET("/navi/json")
     Observable<BaseResponse<List<NavigationInfo>>> navigation();
+
+    /**
+     * 项目分类
+     */
+    @GET("/project/tree/json")
+    Observable<BaseResponse<List<Children>>> projectTree();
+
+    /**
+     * 项目分类
+     */
+    @GET("/project/list/{pageNum}/json")
+    Observable<BaseResponse<HomePageInfo>> projectArticle(@Path("pageNum") int pageNum,@Query("cid") int cid);
 }

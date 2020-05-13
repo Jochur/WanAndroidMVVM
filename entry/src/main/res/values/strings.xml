@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <string name="entry_type">分类：</string>
+    <string name="entry_time">时间：</string>
+</resources>

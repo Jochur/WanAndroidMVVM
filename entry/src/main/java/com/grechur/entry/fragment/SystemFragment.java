@@ -81,7 +81,8 @@ public class SystemFragment extends BaseFragment<SystemViewModel, EntryFragmentS
                             public void onClick(View view) {
                                 Intent intent = new Intent();
                                 intent.setClass(getContext(), SystemArticleActivity.class)
-                                        .putExtra("cid",rightDatum.getId());
+                                        .putExtra("cid",rightDatum.getId())
+                                        .putExtra("system_title",rightDatum.getName());
                                 startActivity(intent);
                             }
                         });

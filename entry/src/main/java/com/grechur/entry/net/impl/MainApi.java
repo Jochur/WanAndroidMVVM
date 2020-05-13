@@ -63,4 +63,12 @@ public class MainApi {
     public Observable<List<NavigationInfo>> navigation(){
         return mainService.navigation().compose(BaseTransformer.<List<NavigationInfo>>applyTransform());
     }
+
+    public Observable<List<Children>> projectTree(){
+        return mainService.projectTree().compose(BaseTransformer.<List<Children>>applyTransform());
+    }
+
+    public Observable<HomePageInfo> projectArticle(int pageNum,int cid){
+        return mainService.projectArticle(pageNum, cid).compose(BaseTransformer.<HomePageInfo>applyTransform());
+    }
 }

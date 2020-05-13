@@ -1,6 +1,9 @@
 package com.grechur.entry.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.util.GsonUtils;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
 import com.grechur.entry.bean.NavigationInfo;
@@ -18,6 +22,8 @@ import com.grechur.entry.databinding.EntryFragmentNavigationBinding;
 import com.grechur.entry.viewmodel.NavigationViewModel;
 import com.grechur.net.ApiException;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,14 +37,18 @@ public class NavigationFragment extends BaseFragment<NavigationViewModel, EntryF
 
     private List<Fragment> mFragments;
 
+    private FragmentStateAdapter mAdapter;
 
+    private List<NavigationInfo> mNavData;
     @Override
     protected void initView(Bundle savedInstanceState) {
 
         binding.navigationTabLayout.addOnTabSelectedListener(this);
 
-        binding.naviViewPage.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        binding.naviViewPage.setAdapter(new FragmentStateAdapter(this) {
+        mNavData = new ArrayList<>();
+        mFragments = new ArrayList<>();
+
+        mAdapter = new FragmentStateAdapter(this) {
             @NonNull
             @Override
             public Fragment createFragment(int position) {
@@ -50,20 +60,44 @@ public class NavigationFragment extends BaseFragment<NavigationViewModel, EntryF
             public int getItemCount() {
                 return mFragments.size();
             }
-        });
+        };
+
+        binding.naviViewPage.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        binding.naviViewPage.setAdapter(mAdapter);
         binding.naviViewPage.setOffscreenPageLimit(1);
+
+
+
+        binding.navigationTabLayout.setTabTextColors(Color.WHITE,Color.WHITE);
+
         new TabLayoutMediator(binding.navigationTabLayout, binding.naviViewPage, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-
+                if(mNavData!=null&&!mNavData.isEmpty()){
+                    tab.setText(mNavData.get(position).getName());
+                }
             }
-        });
+        }).attach();
 
 
         viewModel.mData.observe(this, new Observer<List<NavigationInfo>>() {
             @Override
             public void onChanged(List<NavigationInfo> navigationInfos) {
+                if(navigationInfos!=null&&!navigationInfos.isEmpty()){
+                    mNavData.addAll(navigationInfos);
+                    for (NavigationInfo mNavDatum : mNavData) {
+                        NavigationArticleFragment fragment = new NavigationArticleFragment();
+                        if(mNavDatum.getArticles()!=null&&!mNavDatum.getArticles().isEmpty()) {
+                            String articles = GsonUtils.createArrayToString(mNavDatum.getArticles());
+                            Bundle bundle = new Bundle();
+                            bundle.putString("articles", articles);
+                            fragment.setArguments(bundle);
+                            mFragments.add(fragment);
+                        }
 
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -96,5 +130,57 @@ public class NavigationFragment extends BaseFragment<NavigationViewModel, EntryF
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+
+    /**
+     * 重设tab宽度
+     */
+    private void resetTabParams() {
+        int mScreenWidth = getResources().getDisplayMetrics().widthPixels;
+        LinearLayout tabStrip = getTabStrip(binding.navigationTabLayout);
+        if (tabStrip == null) {
+            return;
+        }
+
+        if(tabStrip.getChildCount()<=4){
+            return;
+        }
+        for (int i = 0; i < tabStrip.getChildCount(); i++) {
+            LinearLayout tabView = (LinearLayout) tabStrip.getChildAt(i);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (mScreenWidth / 4), LinearLayout.LayoutParams
+                    .WRAP_CONTENT);
+            tabView.setLayoutParams(params);
+            //tab中的图标可以超出父容器
+            tabView.setClipChildren(false);
+            tabView.setClipToPadding(false);
+        }
+    }
+
+    public LinearLayout getTabStrip(TabLayout mTablayout) {
+        Class<?> tabLayout = TabLayout.class;
+        Field tabStrip = null;
+        try {
+            tabStrip = tabLayout.getDeclaredField("mTabStrip");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        if (null == tabStrip)
+            return null;
+
+        tabStrip.setAccessible(true);
+        LinearLayout llTab = null;
+        try {
+            llTab = (LinearLayout) tabStrip.get(mTablayout);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if (null == llTab)
+            return null;
+
+        llTab.setClipChildren(false);
+        return llTab;
     }
 }

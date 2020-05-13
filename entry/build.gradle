@@ -22,7 +22,7 @@ android {
         }
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName: project.getName()]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
     }
@@ -48,6 +48,7 @@ dependencies {
     implementation dependencies.bottomBar
     implementation dependencies.material
     implementation dependencies.banner
+    annotationProcessor dependencies.router_annotation
     annotationProcessor dependencies.router_compile
     implementation project(':common')
     implementation dependencies.flexbox

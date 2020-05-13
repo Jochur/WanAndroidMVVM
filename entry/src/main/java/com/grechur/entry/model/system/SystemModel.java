@@ -23,7 +23,7 @@ public class SystemModel{
     private MutableLiveData<List<Children>> mData;
     private MutableLiveData<ApiException> mError;
     private MutableLiveData<List<ArticleInfo>> mArticleData;
-    private MutableLiveData<Integer> totalPage;
+    private MutableLiveData<Boolean> totalPage;
 
     public SystemModel(MutableLiveData<List<Children>> mData, MutableLiveData<ApiException> mError,MutableLiveData<List<ArticleInfo>> mArticleData) {
         this.mData = mData;
@@ -31,7 +31,7 @@ public class SystemModel{
         this.mArticleData = mArticleData;
     }
 
-    public void setTotalPage(MutableLiveData<Integer> totalPage) {
+    public void setTotalPage(MutableLiveData<Boolean> totalPage) {
         this.totalPage = totalPage;
     }
 
@@ -61,7 +61,9 @@ public class SystemModel{
                     @Override
                     public void onNext(HomePageInfo homePageInfo) {
                         if(homePageInfo!=null) {
-                            totalPage.setValue(homePageInfo.getPageCount());
+                            if(homePageInfo.getPageCount() == homePageInfo.getCurPage()){
+                                totalPage.setValue(false);
+                            }
                             if (homePageInfo.getDatas() != null && !homePageInfo.getDatas().isEmpty()) {
                                 mArticleData.setValue(homePageInfo.getDatas());
                             }

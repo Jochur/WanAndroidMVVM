@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 
 import com.grechur.common.base.BaseViewModel;
 import com.grechur.entry.fragment.HomeFragment;
+import com.grechur.entry.fragment.NavigationFragment;
+import com.grechur.entry.fragment.ProjectFragment;
 import com.grechur.entry.fragment.SencondFragment;
 import com.grechur.entry.fragment.SystemFragment;
 
@@ -22,17 +24,18 @@ public class MainViewModel extends BaseViewModel {
     public ObservableField<String> title = new ObservableField();
 
     public Fragment currentFragment;
+
     public HomeFragment homeFragment;
     public SystemFragment systemFragment;
-    public SencondFragment homeFragment2;
-    public SencondFragment homeFragment3;
+    public NavigationFragment navigationFragment;
+    public ProjectFragment projectFragment;
     public SencondFragment homeFragment4;
 
     public MainViewModel() {
         homeFragment = new HomeFragment();
         systemFragment = new SystemFragment();
-        homeFragment2 = new SencondFragment();
-        homeFragment3 = new SencondFragment();
+        navigationFragment = new NavigationFragment();
+        projectFragment = new ProjectFragment();
         homeFragment4 = new SencondFragment();
         currentFragment = homeFragment;
     }

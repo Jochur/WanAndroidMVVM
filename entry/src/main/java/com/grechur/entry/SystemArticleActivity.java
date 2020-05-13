@@ -27,19 +27,20 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
 
     @Autowired
     int cid;
+    @Autowired
+    String system_title;
 
     private int pageNum = 0;
 
     private HomeAdapter homeAdapter;
     private List<ArticleInfo> mData;
 
-    private int totalPage;
 
     @Override
     protected void initView() {
 
         cid = getIntent().getIntExtra("cid",0);
-
+        system_title = getIntent().getStringExtra("system_title");
 
         viewModel.getSystemArticle(pageNum,cid);
 
@@ -49,12 +50,14 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
         binding.systemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.systemRecyclerView.setAdapter(homeAdapter);
 
-        viewModel.totalPage.observe(this, new Observer<Integer>() {
+        viewModel.totalPage.observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(Integer integer) {
-                totalPage = integer -1;
-                if(pageNum >= totalPage){
-                    binding.systemSmartRefresh.resetNoMoreData();
+            public void onChanged(Boolean integer) {
+                if(!integer){
+                    if(binding.systemSmartRefresh.getState() == RefreshState.Loading){
+                        binding.systemSmartRefresh.finishLoadMore();
+                    }
+                    binding.systemSmartRefresh.setNoMoreData(true);
                 }
             }
         });
@@ -79,12 +82,7 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pageNum ++;
-                if(pageNum<=totalPage){
-                    viewModel.getSystemArticle(pageNum,cid);
-                }else{
-                    binding.systemSmartRefresh.finishLoadMore();
-                    binding.systemSmartRefresh.autoLoadMore();
-                }
+                viewModel.getSystemArticle(pageNum,cid);
 
             }
 
@@ -104,6 +102,8 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
                 }
             }
         });
+
+        viewModel.title.set(system_title);
 
     }
 
