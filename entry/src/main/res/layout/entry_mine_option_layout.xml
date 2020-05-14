@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="option"
+            type="com.grechur.entry.bean.OptionsInfo" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:onClick="@{option.click}"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:minHeight="20dp"
+            android:layout_margin="10dp"
+            app:imgSrc="@{option.imgUrl}"
+            app:drawableId="@{option.drawableId}"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            tools:text="名称"
+            android:text="@{option.text}"
+            android:textColor="@color/entry_info_text"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/common_entry"
+            android:visibility="@{option.showRight?View.VISIBLE:View.GONE}"/>
+    </LinearLayout>
+</layout>
+

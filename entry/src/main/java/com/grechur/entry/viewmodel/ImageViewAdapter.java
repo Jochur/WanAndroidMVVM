@@ -2,6 +2,7 @@ package com.grechur.entry.viewmodel;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -26,9 +27,22 @@ public class ImageViewAdapter {
     @BindingAdapter("android:src")
     public static void setSrc(ImageView imageView, String url) {
         Glide.with(imageView.getContext()).load(url)
-                .placeholder(R.drawable.entry_home_sel)
+                .placeholder(R.drawable.defult_img)
                 .into(imageView);
     }
 
+
+    @BindingAdapter("imgSrc")
+    public static void imgSrc(ImageView imageView,String imageUrl){
+        if(!TextUtils.isEmpty(imageUrl)) {
+            Glide.with(imageView.getContext()).load(imageUrl)
+                    .into(imageView);
+        }
+    }
+
+    @BindingAdapter("drawableId")
+    public static void drawableId(ImageView imageView,int drawableId){
+        imageView.setImageResource(drawableId);
+    }
 
 }

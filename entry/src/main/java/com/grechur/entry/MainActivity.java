@@ -3,6 +3,7 @@ package com.grechur.entry;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +13,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.grechur.common.ToolBar;
 import com.grechur.common.base.BaseActivity;
+import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.databinding.EntryActivityMainBinding;
 import com.grechur.entry.fragment.HomeFragment;
 import com.grechur.entry.fragment.SencondFragment;
@@ -22,7 +25,7 @@ import com.grechur.entry.viewmodel.MainViewModel;
 public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBinding> implements BottomNavigationBar.OnTabSelectedListener{
 
 
-
+    ToolBar toolBar ;
 //    @Override
 //    protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -63,6 +66,20 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
         transaction.add(R.id.container, viewModel.homeFragment)
                 .show(viewModel.homeFragment).commit();
         binding.bottomBar.setTabSelectedListener(this);
+
+        toolBar = new ToolBar();
+        toolBar.setToolTitle("首页");
+        toolBar.setShowBack(false);
+        toolBar.setShowBar(true);
+        toolBar.setShowRight(true);
+        toolBar.setRightId(R.drawable.common_search);
+        toolBar.setOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtils.show("去搜索");
+            }
+        });
+        binding.setVariable(BR.tool,toolBar);
     }
 
     @Override
@@ -75,24 +92,29 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
     public void onTabSelected(int position) {
         switch (position){
             case 0:
-                viewModel.title.set("首页");
+//                viewModel.title.set("首页");
+                toolBar.setToolTitle("首页");
                 showFragment(viewModel.homeFragment);
                 break;
             case 1:
-                viewModel.title.set("体系");
+//                viewModel.title.set("体系");
+                toolBar.setToolTitle("体系");
                 showFragment(viewModel.systemFragment);
                 break;
             case 2:
-                viewModel.title.set("导航");
+//                viewModel.title.set("导航");
+                toolBar.setToolTitle("导航");
                 showFragment(viewModel.navigationFragment);
                 break;
             case 3:
-                viewModel.title.set("项目");
+//                viewModel.title.set("项目");
+                toolBar.setToolTitle("项目");
                 showFragment(viewModel.projectFragment);
                 break;
             case 4:
-                viewModel.title.set("我的");
-                showFragment(viewModel.homeFragment4);
+//                viewModel.title.set("我的");
+                toolBar.setToolTitle("我的");
+                showFragment(viewModel.mineFragment);
                 break;
         }
     }

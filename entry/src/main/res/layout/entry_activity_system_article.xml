@@ -7,6 +7,9 @@
         <variable
             name="vm"
             type="com.grechur.entry.viewmodel.SystemArticleViewModel" />
+        <variable
+            name="tool"
+            type="com.grechur.common.ToolBar" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,9 +17,7 @@
         android:orientation="vertical">
         <include layout="@layout/title_bar"
             android:id="@+id/system_title_bar"
-            bind:showEmptyView="@{vm.showEmptyView}"
-            bind:title="@{vm.title}"
-            bind:showReturnView="@{vm.showReturnView}"
+            bind:tool="@{tool}"
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
         <com.scwang.smartrefresh.layout.SmartRefreshLayout

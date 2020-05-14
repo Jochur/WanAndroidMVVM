@@ -3,6 +3,7 @@ package com.grechur.login;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.grechur.common.base.BaseActivity;
 import com.grechur.common.contant.RouterSchame;
+import com.grechur.common.util.SpUtils;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.login.bean.UserInfo;
 import com.grechur.login.databinding.LoginActivityLoginBinding;
@@ -45,6 +47,8 @@ public class LoginActivity extends BaseActivity<LoginViewModel, LoginActivityLog
             public void onChanged(UserInfo userInfo) {
                 if(userInfo!=null){
                     ToastUtils.show("登录成功");
+                    SpUtils.saveString(LoginActivity.this,"userName",userInfo.getNickname());
+                    SpUtils.saveString(LoginActivity.this,"userImg",userInfo.getIcon());
                     finish();
                 }
             }

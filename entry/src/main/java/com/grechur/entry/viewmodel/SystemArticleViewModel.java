@@ -23,10 +23,6 @@ import java.util.List;
  */
 public class SystemArticleViewModel extends BaseViewModel {
 
-    public ObservableBoolean showEmptyView = new ObservableBoolean();
-    public ObservableBoolean showReturnView = new ObservableBoolean();
-    public ObservableField<String> title = new ObservableField();
-
     private SystemModel systemModel;
 
     public MutableLiveData<ApiException> mError = new MutableLiveData<>();
@@ -42,7 +38,6 @@ public class SystemArticleViewModel extends BaseViewModel {
     @Override
     protected void create() {
         super.create();
-        showReturnView.set(true);
     }
 
     public void getSystemArticle(int pageNum, int cid){

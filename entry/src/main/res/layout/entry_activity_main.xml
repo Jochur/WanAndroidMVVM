@@ -8,6 +8,9 @@
         <variable
             name="vm"
             type="com.grechur.entry.viewmodel.MainViewModel" />
+        <variable
+            name="tool"
+            type="com.grechur.common.ToolBar" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,9 +18,7 @@
         android:background="@android:color/white">
         <include layout="@layout/title_bar"
             android:id="@+id/entry_title_bar"
-            bind:showEmptyView="@{vm.showEmptyView}"
-            bind:title="@{vm.title}"
-            bind:showReturnView="@{vm.showReturnView}"
+            bind:tool="@{tool}"
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
         <FrameLayout
