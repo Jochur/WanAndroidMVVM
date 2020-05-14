@@ -18,4 +18,5 @@ public class RouterSchame {
 
     public static final String WEB_VIEW_ACTIVITY = "/common/web_view_activity";
 
+    public static final String COLLECT_ACTIVITY = "/collect/collect_activity";
 }

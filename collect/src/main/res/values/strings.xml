@@ -1,0 +1,4 @@
+<resources>
+    <string name="collect_type">分类：</string>
+    <string name="collect_time">时间：</string>
+</resources>

@@ -81,7 +81,9 @@ public class MineFragment extends BaseFragment<MineViewModel, EntryFragmentMineB
         optionsInfo.setClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ARouter.getInstance()
+                        .build(RouterSchame.COLLECT_ACTIVITY)
+                        .navigation();
             }
         });
         return optionsInfo;

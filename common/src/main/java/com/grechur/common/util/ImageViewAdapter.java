@@ -1,4 +1,4 @@
-package com.grechur.entry.viewmodel;
+package com.grechur.common.util;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
-import com.grechur.entry.R;
+import com.grechur.common.R;
 
 public class ImageViewAdapter {
 

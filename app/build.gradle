@@ -48,6 +48,7 @@ dependencies {
     implementation project(":entry")
     implementation project(":login")
     implementation project(":common")
+    implementation project(":collect")
 
     annotationProcessor dependencies.router_annotation
     annotationProcessor dependencies.router_compile

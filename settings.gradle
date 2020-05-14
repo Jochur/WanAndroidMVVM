@@ -1,3 +1,4 @@
 rootProject.name='WanAndroidMVVM'
 include ':app', ':common', ':net', ':login'
 include ':entry'
+include ':collect'
