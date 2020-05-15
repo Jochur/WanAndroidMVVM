@@ -6,10 +6,12 @@ import com.grechur.collect.bean.ArticleInfo;
 import com.grechur.collect.bean.CollectPageInfo;
 import com.grechur.collect.bean.CollectWebInfo;
 import com.grechur.collect.net.CollectApi;
+import com.grechur.common.bean.Empty;
 import com.grechur.net.ApiException;
 import com.grechur.net.BaseSubscriber;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ProjectName: WanAndroidMVVM
@@ -25,10 +27,21 @@ public class CollectModel {
     private MutableLiveData<ApiException> mError;
     private MutableLiveData<Boolean> canLoad;
 
+    private MutableLiveData<CollectWebInfo> mWebInfo;
+    private MutableLiveData<Boolean> delete;
+
     public CollectModel(MutableLiveData<List<ArticleInfo>> mArticleData, MutableLiveData<ApiException> mError, MutableLiveData<List<CollectWebInfo>> mWebData) {
         this.mArticleData = mArticleData;
         this.mError = mError;
         this.mWebData = mWebData;
+    }
+
+    public void setWebInfo(MutableLiveData<CollectWebInfo> mWebInfo) {
+        this.mWebInfo = mWebInfo;
+    }
+
+    public void setDelete(MutableLiveData<Boolean> delete) {
+        this.delete = delete;
     }
 
     public void setCanLoad(MutableLiveData<Boolean> canLoad) {
@@ -73,5 +86,38 @@ public class CollectModel {
                     }
                 });
     }
+
+    public void updateWeb(Map<String,Object> map){
+        CollectApi.getInstance().updateWeb(map)
+                .subscribe(new BaseSubscriber<CollectWebInfo>() {
+                    @Override
+                    public void onNext(CollectWebInfo webInfo) {
+                        if(webInfo!=null){
+                            mWebInfo.setValue(webInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+                        mError.setValue(e);
+                    }
+                });
+    }
+
+    public void deleteWeb(int id){
+        CollectApi.getInstance().deleteWeb(id)
+                .subscribe(new BaseSubscriber<Empty>() {
+                    @Override
+                    public void onNext(Empty empty) {
+                        delete.setValue(true);
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+                        mError.setValue(e);
+                    }
+                });
+    }
+
 
 }

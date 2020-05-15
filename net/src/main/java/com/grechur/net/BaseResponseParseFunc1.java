@@ -23,6 +23,8 @@ public class BaseResponseParseFunc1<T extends BaseResponse<R>,R> implements Func
                 throw Exceptions.propagate(e);
             }
         }
+        if(t.data == null){
+        }
         return t.data;
     }
 

@@ -3,5 +3,7 @@
 
     <color name="all_bg">#66CCFF</color>
 
+    <color name="page_color">#f3f4f5</color>
+
     <color name="indicator_color">#66CCFF</color>
 </resources>

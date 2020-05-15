@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.widget.LinearLayout"/>
+        <import type="android.view.View"/>
+        <variable
+            name="web"
+            type="com.grechur.collect.bean.CollectWebInfo" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.grechur.common.listener.OnItemClickListener" />
+    </data>
+
+        <RelativeLayout
+            android:id="@+id/rl_web"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="#ffffff"
+            android:onClick="@{(view)->listener.onItemClick(view,position)}">
+            <TextView
+                android:id="@+id/tv_web_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                tools:text="google开发者"
+                android:text="@{web.name}"
+                android:textSize="16dp"
+                android:textColor="#333333"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"/>
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/common_delete"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:onClick="@{(view)->listener.onItemClick(view,position)}"/>
+            <ImageView
+                android:id="@+id/iv_edit"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/common_edit_min"
+                android:layout_toLeftOf="@+id/iv_delete"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:onClick="@{(view)->listener.onItemClick(view,position)}"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#cecece"
+                android:visibility="@{position==0?View.GONE:View.VISIBLE}"
+                android:layout_alignParentTop="true"/>
+        </RelativeLayout>
+        
+
+
+</layout>
+

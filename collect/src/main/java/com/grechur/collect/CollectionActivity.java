@@ -8,13 +8,16 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.grechur.collect.databinding.CollectActivityCollectionBinding;
 import com.grechur.collect.fragment.CollectArticleFragment;
+import com.grechur.collect.fragment.CollectWebFragment;
 import com.grechur.collect.viewmodel.CollectViewModel;
+import com.grechur.common.ToolBar;
 import com.grechur.common.base.BaseActivity;
 import com.grechur.common.contant.RouterSchame;
 
@@ -22,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Route(path = RouterSchame.COLLECT_ACTIVITY)
-public class CollectionActivity extends BaseActivity<CollectViewModel, CollectActivityCollectionBinding> implements TabLayout.OnTabSelectedListener {
+public class CollectionActivity extends BaseActivity<CollectViewModel, CollectActivityCollectionBinding> implements TabLayout.OnTabSelectedListener, View.OnClickListener {
     private List<Fragment> mFragments;
 
     private FragmentStateAdapter mAdapter;
@@ -37,9 +40,9 @@ public class CollectionActivity extends BaseActivity<CollectViewModel, CollectAc
 
         mFragments = new ArrayList<>();
         CollectArticleFragment articleFragment = new CollectArticleFragment();
-        CollectArticleFragment articleFragment1 = new CollectArticleFragment();
+        CollectWebFragment webFragment = new CollectWebFragment();
         mFragments.add(articleFragment);
-        mFragments.add(articleFragment1);
+        mFragments.add(webFragment);
 
         mAdapter = new FragmentStateAdapter(this) {
             @NonNull
@@ -69,6 +72,12 @@ public class CollectionActivity extends BaseActivity<CollectViewModel, CollectAc
                 }
             }
         }).attach();
+
+        ToolBar toolBar = new ToolBar();
+        toolBar.setToolTitle("收藏");
+        toolBar.setShowBack(true);
+        toolBar.setOnClick(this);
+        binding.setTool(toolBar);
     }
 
     @Override
@@ -89,5 +98,12 @@ public class CollectionActivity extends BaseActivity<CollectViewModel, CollectAc
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.iv_back){
+            onBackPressed();
+        }
     }
 }
