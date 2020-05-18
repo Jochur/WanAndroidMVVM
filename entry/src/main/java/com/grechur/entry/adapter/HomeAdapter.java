@@ -17,9 +17,14 @@ import com.grechur.common.base.BaseAdapter;
 import com.grechur.common.base.BaseViewHolder;
 import com.grechur.common.contant.Constants;
 import com.grechur.common.contant.RouterSchame;
+import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.BR;
 import com.grechur.entry.R;
 import com.grechur.entry.bean.ArticleInfo;
+import com.grechur.entry.net.impl.MainApi;
+import com.grechur.net.ApiException;
+import com.grechur.net.BaseSubscriber;
+import com.grechur.net.Empty;
 
 import java.util.List;
 
@@ -69,9 +74,22 @@ public class HomeAdapter extends BaseAdapter<ArticleInfo,BaseViewHolder> {
                 .navigation();
     }
 
-    public void imgClick(ArticleInfo articleInfo,int position){
-        articleInfo.setZan(1);
-        notifyItemChanged(position);
+    public void imgClick(final ArticleInfo articleInfo, int position){
+        MainApi.getInstance()
+                .collectArticle(articleInfo.getId())
+                .subscribe(new BaseSubscriber<Empty>() {
+                    @Override
+                    public void onNext(Empty empty) {
+                        articleInfo.setZan(1);
+                        notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+                        if(e!=null)
+                            ToastUtils.show(e.getMessage());
+                    }
+                });
     }
 
     @Override

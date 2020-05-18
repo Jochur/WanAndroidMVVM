@@ -28,27 +28,18 @@ public class HomeViewModel extends BaseViewModel {
 
     public MutableLiveData<List<BannerInfo>> mLiveBanner = new MutableLiveData<>();
 
-    public MutableLiveData<List<ArticleInfo>> mTopData = new MutableLiveData<>();
-
-    public List<ArticleInfo> mData;
-
-    public List<BannerInfo> mBanners;
     public int pageNum = 0;
+    public boolean isFirst = false;
     public HomeViewModel() {
         Log.e("BaseFragment","HomeViewModel()");
+        mLiveData.setValue(new ArrayList<ArticleInfo>());
+        mLiveBanner.setValue(new ArrayList<BannerInfo>());
         if(mainModel == null) {
-            mainModel = new MainModel(mLiveData, netError, mLiveBanner,mTopData);
+            mainModel = new MainModel(mLiveData, netError, mLiveBanner);
             mainModel.banner();
+            isFirst = true;
             mainModel.homeArticle(0);
             mainModel.topArticle();
-        }
-        if(mData == null) {
-            mData = new ArrayList<>();
-        }else{
-            Log.e("BaseFragment"," mData:"+mData.size());
-        }
-        if(mBanners == null) {
-            mBanners = new ArrayList<>();
         }
     }
 
@@ -63,6 +54,7 @@ public class HomeViewModel extends BaseViewModel {
     public void onRefresh() {
         super.onRefresh();
         mainModel.homeArticle(0);
+        mainModel.topArticle();
     }
 
     @Override
@@ -70,4 +62,13 @@ public class HomeViewModel extends BaseViewModel {
         super.onLoad(pageNum);
         mainModel.homeArticle(pageNum);
     }
+
+    public List<ArticleInfo> getData(){
+        return mLiveData.getValue();
+    }
+
+    public List<BannerInfo> getBanner(){
+        return mLiveBanner.getValue();
+    }
+
 }

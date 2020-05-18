@@ -4,7 +4,10 @@ import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.fragment.app.Fragment;
 
+import com.grechur.common.arouter.RouteServiceManager;
+import com.grechur.common.arouter.news.IHomeService;
 import com.grechur.common.base.BaseViewModel;
+import com.grechur.entry.HomeService;
 import com.grechur.entry.fragment.HomeFragment;
 import com.grechur.entry.fragment.MineFragment;
 import com.grechur.entry.fragment.NavigationFragment;
@@ -28,8 +31,11 @@ public class MainViewModel extends BaseViewModel {
     public NavigationFragment navigationFragment;
     public ProjectFragment projectFragment;
     public MineFragment mineFragment;
+    public IHomeService service;
+    public int position = 0;
 
     public MainViewModel() {
+
         homeFragment = new HomeFragment();
         systemFragment = new SystemFragment();
         navigationFragment = new NavigationFragment();

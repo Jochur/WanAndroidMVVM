@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.base.BaseReFragment;
 import com.grechur.entry.R;
 import com.grechur.entry.bean.Children;
 import com.grechur.entry.databinding.EntryFragmentProjectBinding;
@@ -27,16 +28,15 @@ import java.util.List;
  * @Author: Grechur
  * @CreateDate: 2020/5/13 11:23
  */
-public class ProjectFragment extends BaseFragment<ProjectViewModel, EntryFragmentProjectBinding> implements TabLayout.OnTabSelectedListener{
+public class ProjectFragment extends BaseReFragment<ProjectViewModel, EntryFragmentProjectBinding> implements TabLayout.OnTabSelectedListener{
     private List<Fragment> mFragments;
 
     private FragmentStateAdapter mAdapter;
 
-    private List<Children> mData;
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         mFragments = new ArrayList<>();
-        mData = new ArrayList<>();
         mAdapter = new FragmentStateAdapter(this) {
             @NonNull
             @Override
@@ -62,31 +62,37 @@ public class ProjectFragment extends BaseFragment<ProjectViewModel, EntryFragmen
         new TabLayoutMediator(binding.projectTabLayout, binding.projectViewPage, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if(mData!=null&&!mData.isEmpty()){
-                    tab.setText(mData.get(position).getName());
+                if(viewModel.mData!=null&&!viewModel.mData.isEmpty()){
+                    tab.setText(viewModel.mData.get(position).getName());
                 }
             }
         }).attach();
 
-        viewModel.mTreeData.observe(this, new Observer<List<Children>>() {
-            @Override
-            public void onChanged(List<Children> children) {
-                if(children!=null&&!children.isEmpty()){
-                    mData.addAll(children);
-                    for (Children mDatum : mData) {
-                        ProjectArticleFragment fragment = new ProjectArticleFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("cid",mDatum.getId());
-                        fragment.setArguments(bundle);
-                        mFragments.add(fragment);
+        if(!viewModel.mTreeData.hasObservers()) {
+            viewModel.mTreeData.observe(this, new Observer<List<Children>>() {
+                @Override
+                public void onChanged(List<Children> children) {
+                    if (children != null && !children.isEmpty()) {
+                        viewModel.mData.addAll(children);
+                        setData(viewModel.mData);
                     }
-                    mAdapter.notifyDataSetChanged();
                 }
-            }
-        });
+            });
+        }else{
+            setData(viewModel.mData);
+        }
 
+    }
 
-
+    private void setData(List<Children> data){
+        for (Children mDatum : data) {
+            ProjectArticleFragment fragment = new ProjectArticleFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("cid", mDatum.getId());
+            fragment.setArguments(bundle);
+            mFragments.add(fragment);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -22,7 +22,7 @@ import java.lang.reflect.ParameterizedType;
  * @Author: Grechur
  * @CreateDate: 2020/5/7 10:50
  */
-public abstract class BaseActivity<VM extends BaseViewModel,VDB extends ViewDataBinding> extends AppCompatActivity {
+public abstract class BaseActivity<VM extends BaseViewModel,VDB extends ViewDataBinding> extends AppCompatActivity{
 
     protected VDB binding;
     protected VM viewModel;

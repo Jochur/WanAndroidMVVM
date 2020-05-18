@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.util.GsonUtils;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
@@ -33,19 +34,18 @@ import java.util.List;
  * @Author: Grechur
  * @CreateDate: 2020/5/12 18:03
  */
-public class NavigationFragment extends BaseFragment<NavigationViewModel, EntryFragmentNavigationBinding> implements TabLayout.OnTabSelectedListener {
+public class NavigationFragment extends BaseReFragment<NavigationViewModel, EntryFragmentNavigationBinding> implements TabLayout.OnTabSelectedListener {
 
     private List<Fragment> mFragments;
 
     private FragmentStateAdapter mAdapter;
 
-    private List<NavigationInfo> mNavData;
+
     @Override
     protected void initView(Bundle savedInstanceState) {
 
         binding.navigationTabLayout.addOnTabSelectedListener(this);
 
-        mNavData = new ArrayList<>();
         mFragments = new ArrayList<>();
 
         mAdapter = new FragmentStateAdapter(this) {
@@ -73,43 +73,53 @@ public class NavigationFragment extends BaseFragment<NavigationViewModel, EntryF
         new TabLayoutMediator(binding.navigationTabLayout, binding.naviViewPage, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if(mNavData!=null&&!mNavData.isEmpty()){
-                    tab.setText(mNavData.get(position).getName());
+                if(viewModel.mNavData!=null&&!viewModel.mNavData.isEmpty()){
+                    tab.setText(viewModel.mNavData.get(position).getName());
                 }
             }
         }).attach();
 
-
-        viewModel.mData.observe(this, new Observer<List<NavigationInfo>>() {
-            @Override
-            public void onChanged(List<NavigationInfo> navigationInfos) {
-                if(navigationInfos!=null&&!navigationInfos.isEmpty()){
-                    mNavData.addAll(navigationInfos);
-                    for (NavigationInfo mNavDatum : mNavData) {
-                        NavigationArticleFragment fragment = new NavigationArticleFragment();
-                        if(mNavDatum.getArticles()!=null&&!mNavDatum.getArticles().isEmpty()) {
-                            String articles = GsonUtils.createArrayToString(mNavDatum.getArticles());
-                            Bundle bundle = new Bundle();
-                            bundle.putString("articles", articles);
-                            fragment.setArguments(bundle);
-                            mFragments.add(fragment);
-                        }
-
+        if(!viewModel.mData.hasObservers()) {
+            viewModel.mData.observe(this, new Observer<List<NavigationInfo>>() {
+                @Override
+                public void onChanged(List<NavigationInfo> navigationInfos) {
+                    if (navigationInfos != null && !navigationInfos.isEmpty()) {
+                        viewModel.mNavData.addAll(navigationInfos);
+                        setData(viewModel.mNavData);
                     }
-                    mAdapter.notifyDataSetChanged();
                 }
-            }
-        });
+            });
+        }else{
+            setData(viewModel.mNavData);
+        }
 
-        viewModel.mError.observe(this, new Observer<ApiException>() {
-            @Override
-            public void onChanged(ApiException e) {
-                if(e!=null){
-                    ToastUtils.show(e.getMessage());
+        if(!viewModel.mError.hasObservers()) {
+
+            viewModel.mError.observe(this, new Observer<ApiException>() {
+                @Override
+                public void onChanged(ApiException e) {
+                    if (e != null) {
+                        ToastUtils.show(e.getMessage());
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
 
+
+    private void setData(List<NavigationInfo> data){
+        for (NavigationInfo mNavDatum : data) {
+            NavigationArticleFragment fragment = new NavigationArticleFragment();
+            if (mNavDatum.getArticles() != null && !mNavDatum.getArticles().isEmpty()) {
+                String articles = GsonUtils.createArrayToString(mNavDatum.getArticles());
+                Bundle bundle = new Bundle();
+                bundle.putString("articles", articles);
+                fragment.setArguments(bundle);
+                mFragments.add(fragment);
+            }
+
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

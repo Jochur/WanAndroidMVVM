@@ -7,11 +7,15 @@ import com.grechur.entry.bean.Children;
 import com.grechur.entry.bean.HomePageInfo;
 import com.grechur.entry.bean.NavigationInfo;
 import com.grechur.net.BaseResponse;
+import com.grechur.net.Empty;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -74,4 +78,26 @@ public interface IMainService {
      */
     @GET("/project/list/{pageNum}/json")
     Observable<BaseResponse<HomePageInfo>> projectArticle(@Path("pageNum") int pageNum,@Query("cid") int cid);
+
+    /**
+     *
+     */
+    @GET("/lg/collect/{id}}/json")
+    Observable<BaseResponse<Empty>> collectArticle(@Path("id") int id);
+
+    /**
+     *搜索热词
+     */
+    @GET("/hotkey/json")
+    Observable<BaseResponse<List<ArticleInfo>>> hotKey();
+
+    /**
+     *  搜索
+     * @param pageNum 页码
+     * @param key 搜索词
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/article/query/{pageNum}/json")
+    Observable<BaseResponse<HomePageInfo>> queryArticle(@Path("pageNum") int pageNum, @Field("k") String key);
 }

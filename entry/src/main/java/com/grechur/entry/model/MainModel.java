@@ -11,6 +11,7 @@ import com.grechur.entry.net.impl.MainApi;
 import com.grechur.net.ApiException;
 import com.grechur.net.BaseSubscriber;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,14 +27,12 @@ public class MainModel implements IMainModel{
 
     public MutableLiveData<List<BannerInfo>> mBanner;
 
-    public MutableLiveData<List<ArticleInfo>> mTopData;
 
 
-    public MainModel(MutableLiveData<List<ArticleInfo>> mData, MutableLiveData<ApiException> netError, MutableLiveData<List<BannerInfo>> mBanner, MutableLiveData<List<ArticleInfo>> mTopData) {
+    public MainModel(MutableLiveData<List<ArticleInfo>> mData, MutableLiveData<ApiException> netError, MutableLiveData<List<BannerInfo>> mBanner) {
         this.mData = mData;
         this.netError = netError;
         this.mBanner = mBanner;
-        this.mTopData = mTopData;
     }
 
     @Override
@@ -46,7 +45,13 @@ public class MainModel implements IMainModel{
 
                             if(homePageInfo.getDatas()!=null&&!homePageInfo.getDatas().isEmpty()){
                                 Log.e("BaseFragment","pageNum:"+pageNum);
-                                mData.setValue(homePageInfo.getDatas());
+//                                if(pageNum == 0){
+//                                    mData.setValue(new ArrayList<ArticleInfo>());
+//                                }
+//                                mData.setValue(homePageInfo.getDatas());
+                                List<ArticleInfo> value = mData.getValue();
+                                value.addAll(homePageInfo.getDatas());
+                                mData.setValue(value);
                             }
                         }
                     }
@@ -65,7 +70,10 @@ public class MainModel implements IMainModel{
                     @Override
                     public void onNext(List<BannerInfo> bannerInfos) {
                         if(bannerInfos!=null&&!bannerInfos.isEmpty()){
-                            mBanner.setValue(bannerInfos);
+//                            mBanner.setValue(bannerInfos);
+                            List<BannerInfo> bannerInfoList = mBanner.getValue();
+                            bannerInfoList.addAll(bannerInfos);
+                            mBanner.setValue(bannerInfoList);
                         }
                     }
 
@@ -83,7 +91,10 @@ public class MainModel implements IMainModel{
                     @Override
                     public void onNext(List<ArticleInfo> articleInfos) {
                         if(articleInfos!=null&&!articleInfos.isEmpty()){
-                            mTopData.setValue(articleInfos);
+//                            mTopData.setValue(articleInfos);
+                            List<ArticleInfo> value = mData.getValue();
+                            value.addAll(0,articleInfos);
+                            mData.setValue(value);
                         }
                     }
 

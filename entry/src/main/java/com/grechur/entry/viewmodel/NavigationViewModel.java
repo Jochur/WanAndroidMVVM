@@ -7,6 +7,7 @@ import com.grechur.entry.bean.NavigationInfo;
 import com.grechur.entry.model.NavigationModel;
 import com.grechur.net.ApiException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,10 @@ public class NavigationViewModel extends BaseViewModel {
     public MutableLiveData<List<NavigationInfo>> mData = new MutableLiveData<>();
     private NavigationModel navigationModel;
 
+    public List<NavigationInfo> mNavData;
+
     public NavigationViewModel() {
+        mNavData = new ArrayList<>();
         navigationModel = new NavigationModel(mData,mError);
         navigationModel.navigation();
     }

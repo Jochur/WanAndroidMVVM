@@ -9,6 +9,7 @@ import com.grechur.entry.bean.HomePageInfo;
 import com.grechur.entry.bean.NavigationInfo;
 import com.grechur.entry.net.IMainService;
 import com.grechur.net.BaseTransformer;
+import com.grechur.net.Empty;
 
 import java.util.List;
 
@@ -70,5 +71,17 @@ public class MainApi {
 
     public Observable<HomePageInfo> projectArticle(int pageNum,int cid){
         return mainService.projectArticle(pageNum, cid).compose(BaseTransformer.<HomePageInfo>applyTransform());
+    }
+
+    public Observable<Empty> collectArticle(int id){
+        return mainService.collectArticle(id).compose(BaseTransformer.<Empty>applyTransform());
+    }
+
+    public Observable<List<ArticleInfo>> hotKey(){
+        return mainService.hotKey().compose(BaseTransformer.<List<ArticleInfo>>applyTransform());
+    }
+
+    public Observable<HomePageInfo> queryArticle(int pageNum, String key){
+        return mainService.queryArticle(pageNum, key).compose(BaseTransformer.<HomePageInfo>applyTransform());
     }
 }

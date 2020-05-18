@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.internal.FlowLayout;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
@@ -37,7 +38,7 @@ import java.util.List;
  * @Author: Grechur
  * @CreateDate: 2020/5/12 11:42
  */
-public class SystemFragment extends BaseFragment<SystemViewModel, EntryFragmentSystemBinding> {
+public class SystemFragment extends BaseReFragment<SystemViewModel, EntryFragmentSystemBinding> {
 
     private SystemAdapter mAdapter;
 
@@ -49,25 +50,28 @@ public class SystemFragment extends BaseFragment<SystemViewModel, EntryFragmentS
         binding.recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recycleView.setAdapter(mAdapter);
 
-
-        viewModel.mData.observe(this, new Observer<List<Children>>() {
-            @Override
-            public void onChanged(List<Children> children) {
-                if(children!=null&&!children.isEmpty()){
-                    viewModel.mLeftData.addAll(children);
-                    mAdapter.notifyDataSetChanged();
+        if(!viewModel.mData.hasObservers()) {
+            viewModel.mData.observe(this, new Observer<List<Children>>() {
+                @Override
+                public void onChanged(List<Children> children) {
+                    if (children != null && !children.isEmpty()) {
+                        viewModel.mLeftData.addAll(children);
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        viewModel.mError.observe(this, new Observer<ApiException>() {
-            @Override
-            public void onChanged(ApiException e) {
-                if(e!=null){
-                    ToastUtils.show(e.getMessage());
+        if(!viewModel.mError.hasObservers()) {
+            viewModel.mError.observe(this, new Observer<ApiException>() {
+                @Override
+                public void onChanged(ApiException e) {
+                    if (e != null) {
+                        ToastUtils.show(e.getMessage());
+                    }
                 }
-            }
-        });
+            });
+        }
 
         mAdapter.setListener(new SystemAdapter.OnItemChangeListener() {
             @Override
