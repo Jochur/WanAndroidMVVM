@@ -65,4 +65,5 @@ dependencies {
     api dependencies.recyclerview
     api dependencies.glide
     annotationProcessor dependencies.glideCompiler
+    api dependencies.loadsir
 }

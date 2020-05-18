@@ -1,6 +1,12 @@
 package com.grechur.net;
 
+import android.util.Log;
+
 import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Function;
@@ -24,6 +30,7 @@ public class BaseResponseParseFunc1<T extends BaseResponse<R>,R> implements Func
             }
         }
         if(t.data == null){
+            throw new ApiException(t.errorCode,t.errorMsg);
         }
         return t.data;
     }

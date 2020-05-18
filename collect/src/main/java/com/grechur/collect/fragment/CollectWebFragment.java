@@ -63,7 +63,13 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
             @Override
             public void onChanged(ApiException e) {
                 if(e != null){
-                    ToastUtils.show(e.getMessage());
+                    if(e.getCode() == 0){
+                        mData.remove(mPosition);
+                        mAdapter.notifyDataSetChanged();
+                        mPosition = -1;
+                    } else {
+                        ToastUtils.show(e.getMessage());
+                    }
                 }
             }
         });

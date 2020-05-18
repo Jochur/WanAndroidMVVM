@@ -2,6 +2,7 @@ package com.grechur.common.base;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.BR;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * @ProjectName: ToolsDemo
@@ -52,6 +54,8 @@ public abstract class BaseActivity<VM extends BaseViewModel,VDB extends ViewData
      * @return
      */
     private Class<VM>  getTClass(){
+        Type type1 = this.getClass().getGenericSuperclass();
+        Log.e("getTClass","getClass:"+this.getClass()+" type:"+type1);
         //返回表示此 Class 所表示的实体（类、接口、基本类型或 void）的直接超类的 Type。
         ParameterizedType type = (ParameterizedType)this.getClass().getGenericSuperclass();
         //返回表示此类型实际类型参数的 Type 对象的数组()，想要获取第二个泛型的Class，所以索引写1

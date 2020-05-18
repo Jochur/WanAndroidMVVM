@@ -18,13 +18,23 @@ import com.grechur.common.base.BaseActivity;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.databinding.EntryActivityMainBinding;
 import com.grechur.entry.fragment.HomeFragment;
+import com.grechur.entry.fragment.MineFragment;
+import com.grechur.entry.fragment.NavigationFragment;
+import com.grechur.entry.fragment.ProjectFragment;
 import com.grechur.entry.fragment.SencondFragment;
+import com.grechur.entry.fragment.SystemFragment;
 import com.grechur.entry.viewmodel.MainViewModel;
 
 
 public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBinding> implements BottomNavigationBar.OnTabSelectedListener{
 
+    public Fragment currentFragment;
 
+    public HomeFragment homeFragment;
+    public SystemFragment systemFragment;
+    public NavigationFragment navigationFragment;
+    public ProjectFragment projectFragment;
+    public MineFragment mineFragment;
     ToolBar toolBar ;
 //    @Override
 //    protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +62,12 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
     @Override
     protected void initView() {
 
+        homeFragment = new HomeFragment();
+        systemFragment = new SystemFragment();
+        navigationFragment = new NavigationFragment();
+        projectFragment = new ProjectFragment();
+        mineFragment = new MineFragment();
+        currentFragment = homeFragment;
 
         binding.bottomBar.addItem(new BottomNavigationItem(R.drawable.entry_home_unsel,"首页"))
                 .addItem(new BottomNavigationItem(R.drawable.entry_system_unsel,"体系"))
@@ -63,8 +79,8 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
                 .initialise();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container, viewModel.homeFragment)
-                .show(viewModel.homeFragment).commit();
+        transaction.add(R.id.container, homeFragment)
+                .show(homeFragment).commit();
         binding.bottomBar.setTabSelectedListener(this);
 
         toolBar = new ToolBar();
@@ -94,27 +110,27 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
             case 0:
 //                viewModel.title.set("首页");
                 toolBar.setToolTitle("首页");
-                showFragment(viewModel.homeFragment);
+                showFragment(homeFragment);
                 break;
             case 1:
 //                viewModel.title.set("体系");
                 toolBar.setToolTitle("体系");
-                showFragment(viewModel.systemFragment);
+                showFragment(systemFragment);
                 break;
             case 2:
 //                viewModel.title.set("导航");
                 toolBar.setToolTitle("导航");
-                showFragment(viewModel.navigationFragment);
+                showFragment(navigationFragment);
                 break;
             case 3:
 //                viewModel.title.set("项目");
                 toolBar.setToolTitle("项目");
-                showFragment(viewModel.projectFragment);
+                showFragment(projectFragment);
                 break;
             case 4:
 //                viewModel.title.set("我的");
                 toolBar.setToolTitle("我的");
-                showFragment(viewModel.mineFragment);
+                showFragment(mineFragment);
                 break;
         }
     }
@@ -133,10 +149,10 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
      * 展示Fragment
      */
     private void showFragment(Fragment fragment) {
-        if (viewModel.currentFragment != fragment) {
+        if (currentFragment != fragment) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(viewModel.currentFragment);
-            viewModel.currentFragment = fragment;
+            transaction.hide(currentFragment);
+            currentFragment = fragment;
             if (!fragment.isAdded()) {
                 transaction.add(R.id.container, fragment).show(fragment).commit();
             } else {

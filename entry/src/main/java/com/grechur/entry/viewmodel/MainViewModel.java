@@ -21,21 +21,10 @@ import com.grechur.entry.fragment.SystemFragment;
  */
 public class MainViewModel extends BaseViewModel {
 
-    public Fragment currentFragment;
 
-    public HomeFragment homeFragment;
-    public SystemFragment systemFragment;
-    public NavigationFragment navigationFragment;
-    public ProjectFragment projectFragment;
-    public MineFragment mineFragment;
 
     public MainViewModel() {
-        homeFragment = new HomeFragment();
-        systemFragment = new SystemFragment();
-        navigationFragment = new NavigationFragment();
-        projectFragment = new ProjectFragment();
-        mineFragment = new MineFragment();
-        currentFragment = homeFragment;
+
     }
 
     @Override
