@@ -28,13 +28,8 @@ import com.grechur.entry.viewmodel.MainViewModel;
 
 public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBinding> implements BottomNavigationBar.OnTabSelectedListener{
 
-    public Fragment currentFragment;
 
-    public HomeFragment homeFragment;
-    public SystemFragment systemFragment;
-    public NavigationFragment navigationFragment;
-    public ProjectFragment projectFragment;
-    public MineFragment mineFragment;
+
     ToolBar toolBar ;
 //    @Override
 //    protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,25 +57,25 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
     @Override
     protected void initView() {
 
-        homeFragment = new HomeFragment();
-        systemFragment = new SystemFragment();
-        navigationFragment = new NavigationFragment();
-        projectFragment = new ProjectFragment();
-        mineFragment = new MineFragment();
-        currentFragment = homeFragment;
-
-        binding.bottomBar.addItem(new BottomNavigationItem(R.drawable.entry_home_unsel,"首页"))
-                .addItem(new BottomNavigationItem(R.drawable.entry_system_unsel,"体系"))
-                .addItem(new BottomNavigationItem(R.drawable.entry_navigation_unsel,"导航"))
-                .addItem(new BottomNavigationItem(R.drawable.entry_project_unsel,"项目"))
-                .addItem(new BottomNavigationItem(R.drawable.entry_mine_unsel,"我的"))
+        binding.bottomBar.addItem(new BottomNavigationItem(R.drawable.entry_home_unsel, "首页"))
+                .addItem(new BottomNavigationItem(R.drawable.entry_system_unsel, "体系"))
+                .addItem(new BottomNavigationItem(R.drawable.entry_navigation_unsel, "导航"))
+                .addItem(new BottomNavigationItem(R.drawable.entry_project_unsel, "项目"))
+                .addItem(new BottomNavigationItem(R.drawable.entry_mine_unsel, "我的"))
                 .setActiveColor(R.color.all_bg)
                 .setMode(BottomNavigationBar.MODE_FIXED)
+                .setFirstSelectedPosition(viewModel.position)
                 .initialise();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container, homeFragment)
-                .show(homeFragment).commit();
+
+        if (!viewModel.homeFragment.isAdded()){
+            transaction.add(R.id.container, viewModel.homeFragment)
+                    .show(viewModel.homeFragment).commit();
+            viewModel.currentFragment = viewModel.homeFragment;
+        }else {
+            showFragment(viewModel.currentFragment);
+        }
         binding.bottomBar.setTabSelectedListener(this);
 
         toolBar = new ToolBar();
@@ -110,27 +105,32 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
             case 0:
 //                viewModel.title.set("首页");
                 toolBar.setToolTitle("首页");
-                showFragment(homeFragment);
+                viewModel.position= 0;
+                showFragment(viewModel.homeFragment);
                 break;
             case 1:
 //                viewModel.title.set("体系");
                 toolBar.setToolTitle("体系");
-                showFragment(systemFragment);
+                viewModel.position = 1;
+                showFragment(viewModel.systemFragment);
                 break;
             case 2:
 //                viewModel.title.set("导航");
                 toolBar.setToolTitle("导航");
-                showFragment(navigationFragment);
+                viewModel.position = 2;
+                showFragment(viewModel.navigationFragment);
                 break;
             case 3:
 //                viewModel.title.set("项目");
                 toolBar.setToolTitle("项目");
-                showFragment(projectFragment);
+                viewModel.position = 3;
+                showFragment(viewModel.projectFragment);
                 break;
             case 4:
 //                viewModel.title.set("我的");
                 toolBar.setToolTitle("我的");
-                showFragment(mineFragment);
+                viewModel.position = 4;
+                showFragment(viewModel.mineFragment);
                 break;
         }
     }
@@ -149,10 +149,10 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
      * 展示Fragment
      */
     private void showFragment(Fragment fragment) {
-        if (currentFragment != fragment) {
+        if (viewModel.currentFragment != fragment) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(currentFragment);
-            currentFragment = fragment;
+            transaction.hide(viewModel.currentFragment);
+            viewModel.currentFragment = fragment;
             if (!fragment.isAdded()) {
                 transaction.add(R.id.container, fragment).show(fragment).commit();
             } else {

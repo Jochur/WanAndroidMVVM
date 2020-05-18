@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.util.SpUtils;
 import com.grechur.entry.R;
@@ -20,7 +21,7 @@ import com.grechur.entry.viewmodel.MineViewModel;
  * @Author: Grechur
  * @CreateDate: 2020/5/14 14:22
  */
-public class MineFragment extends BaseFragment<MineViewModel, EntryFragmentMineBinding> {
+public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMineBinding> {
 
     private OptionsInfo userOption;
 
@@ -75,7 +76,7 @@ public class MineFragment extends BaseFragment<MineViewModel, EntryFragmentMineB
 
     private OptionsInfo getCollectOption(){
         OptionsInfo optionsInfo = new OptionsInfo();
-        optionsInfo.setDrawableId(R.drawable.defult_img);
+        optionsInfo.setDrawableId(R.drawable.entry_collect);
         optionsInfo.setText("收藏");
         optionsInfo.setShowRight(true);
         optionsInfo.setClick(new View.OnClickListener() {
@@ -90,7 +91,7 @@ public class MineFragment extends BaseFragment<MineViewModel, EntryFragmentMineB
     }
     private OptionsInfo getSetOption(){
         OptionsInfo optionsInfo = new OptionsInfo();
-        optionsInfo.setDrawableId(R.drawable.defult_img);
+        optionsInfo.setDrawableId(R.drawable.entry_setting);
         optionsInfo.setText("设置");
         optionsInfo.setShowRight(true);
         optionsInfo.setClick(new View.OnClickListener() {

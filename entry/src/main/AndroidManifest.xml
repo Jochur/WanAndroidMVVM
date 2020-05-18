@@ -3,11 +3,9 @@
     package="com.grechur.entry">
 
     <application>
-        <activity android:name=".SystemArticleActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".SystemArticleActivity"/>
         <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

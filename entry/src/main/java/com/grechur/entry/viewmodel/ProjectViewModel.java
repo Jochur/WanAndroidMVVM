@@ -8,6 +8,7 @@ import com.grechur.entry.bean.Children;
 import com.grechur.entry.model.ProjectModel;
 import com.grechur.net.ApiException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +21,13 @@ import java.util.List;
 public class ProjectViewModel extends BaseViewModel {
 
     ProjectModel projectModel;
+    public List<Children> mData;
 
     public MutableLiveData<List<Children>> mTreeData = new MutableLiveData<>();
     public MutableLiveData<ApiException> mError = new MutableLiveData<>();
 
     public ProjectViewModel() {
+        mData = new ArrayList<>();
         projectModel = new ProjectModel(mTreeData,mError,null);
         projectModel.projectTree();
     }

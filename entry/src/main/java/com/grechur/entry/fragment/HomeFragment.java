@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
 import com.grechur.entry.adapter.HomeAdapter;
@@ -30,41 +31,42 @@ import com.youth.banner.indicator.CircleIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeBinding> {
+public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHomeBinding> {
 
     private HomeAdapter mAdapter;
 
     private ImageAdapter imageAdapter;
 
-
-
     @Override
     protected void initView(Bundle savedInstanceState) {
-        imageAdapter = new ImageAdapter(getContext(), viewModel.mBanners);
+        imageAdapter = new ImageAdapter(getContext(), viewModel.getBanner());
         binding.banner.setAdapter(imageAdapter)
                 .setIndicator(new CircleIndicator(getContext()))
                 .setIndicatorNormalColorRes(R.color.indicator_color)
                 .setIndicatorSelectedColorRes(R.color.all_bg);
-        mAdapter = new HomeAdapter(getContext(),viewModel.mData);
+        mAdapter = new HomeAdapter(getContext(),viewModel.getData());
         binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecyclerView.setAdapter(mAdapter);
-        viewModel.mLiveData.observe(this, new Observer<List<ArticleInfo>>() {
-            @Override
-            public void onChanged(List<ArticleInfo> articleInfos) {
-                if(articleInfos!=null&&!articleInfos.isEmpty()) {
-                    Log.e("BaseFragment","articleInfos:"+articleInfos.size()+" viewModel.mData:"+viewModel.mData.size());
-                    viewModel.mData.addAll(articleInfos);
-                    Log.e("BaseFragment"," viewModel.mData:"+viewModel.mData.size());
-                    mAdapter.notifyDataSetChanged();
+        Log.e("BaseFragment","viewModel:"+viewModel.pageNum+" viewModel data:"+viewModel.getData().size());
+        Log.e("BaseFragment","hasObservers:"+viewModel.mLiveData.hasObservers());
+        if(!viewModel.mLiveData.hasObservers()) {
+            viewModel.mLiveData.observe(this, new Observer<List<ArticleInfo>>() {
+                @Override
+                public void onChanged(List<ArticleInfo> articleInfos) {
+                    if (articleInfos != null && !articleInfos.isEmpty()) {
+//                        Log.e("BaseFragment", " articleInfos:" + articleInfos.size());
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    if (binding.smartRefreshLayout.getState() == RefreshState.Loading) {
+                        binding.smartRefreshLayout.finishLoadMore();
+                    }
+                    if (binding.smartRefreshLayout.getState() == RefreshState.Refreshing) {
+                        binding.smartRefreshLayout.finishRefresh();
+                    }
                 }
-                if(binding.smartRefreshLayout.getState() == RefreshState.Loading){
-                    binding.smartRefreshLayout.finishLoadMore();
-                }
-                if(binding.smartRefreshLayout.getState() == RefreshState.Refreshing){
-                    binding.smartRefreshLayout.finishRefresh();
-                }
-            }
-        });
+            });
+        }
+
         viewModel.netError.observe(this, new Observer<ApiException>() {
             @Override
             public void onChanged(ApiException e) {
@@ -77,27 +79,18 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
                 }
             }
         });
-        viewModel.mLiveBanner.observe(this, new Observer<List<BannerInfo>>() {
-            @Override
-            public void onChanged(List<BannerInfo> bannerInfos) {
-                if(bannerInfos!=null&&!bannerInfos.isEmpty()) {
-                    viewModel.mBanners.addAll(bannerInfos) ;
-                    imageAdapter.notifyDataSetChanged();
+
+        if(!viewModel.mLiveBanner.hasObservers()) {
+            viewModel.mLiveBanner.observe(this, new Observer<List<BannerInfo>>() {
+                @Override
+                public void onChanged(List<BannerInfo> bannerInfos) {
+                    if (bannerInfos != null && !bannerInfos.isEmpty()) {
+                        imageAdapter.notifyDataSetChanged();
+                    }
+
                 }
-
-            }
-        });
-
-        viewModel.mTopData.observe(this, new Observer<List<ArticleInfo>>() {
-            @Override
-            public void onChanged(List<ArticleInfo> articleInfos) {
-                if(articleInfos!=null&&!articleInfos.isEmpty()) {
-                    viewModel.mData.addAll(0,articleInfos);
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-
+            });
+        }
 
         binding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
@@ -108,7 +101,6 @@ public class HomeFragment extends BaseFragment<HomeViewModel, EntryFragmentHomeB
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                viewModel.mData.clear();
                 viewModel.pageNum = 0;
                 viewModel.onRefresh();
             }
