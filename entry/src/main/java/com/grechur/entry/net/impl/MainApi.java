@@ -8,6 +8,7 @@ import com.grechur.entry.bean.Children;
 import com.grechur.entry.bean.HomePageInfo;
 import com.grechur.entry.bean.HotBean;
 import com.grechur.entry.bean.NavigationInfo;
+import com.grechur.entry.bean.RankPageInfo;
 import com.grechur.entry.net.IMainService;
 import com.grechur.net.BaseTransformer;
 import com.grechur.net.Empty;
@@ -84,5 +85,9 @@ public class MainApi {
 
     public Observable<HomePageInfo> queryArticle(int pageNum, String key){
         return mainService.queryArticle(pageNum, key).compose(BaseTransformer.<HomePageInfo>applyTransform());
+    }
+
+    public Observable<RankPageInfo> rank(int pageNum){
+        return mainService.rank(pageNum).compose(BaseTransformer.<RankPageInfo>applyTransform());
     }
 }

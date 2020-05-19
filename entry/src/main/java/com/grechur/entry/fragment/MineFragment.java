@@ -24,13 +24,16 @@ import com.grechur.entry.viewmodel.MineViewModel;
 public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMineBinding> {
 
     private OptionsInfo userOption;
+    private String userName;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        userName = SpUtils.getString(getContext(),"userName","");
         userOption = getUserOption();
         binding.entryUser.setOptions(userOption);
         binding.entryCollect.setOptions(getCollectOption());
         binding.entrySet.setOptions(getSetOption());
+        binding.entryRank.setOptions(getRankOption());
     }
 
     @Override
@@ -82,9 +85,15 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
         optionsInfo.setClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ARouter.getInstance()
-                        .build(RouterSchame.COLLECT_ACTIVITY)
-                        .navigation();
+                if(TextUtils.isEmpty(userName)){
+                    ARouter.getInstance()
+                            .build(RouterSchame.LOGIN_ACTIVITY)
+                            .navigation();
+                } else {
+                    ARouter.getInstance()
+                            .build(RouterSchame.COLLECT_ACTIVITY)
+                            .navigation();
+                }
             }
         });
         return optionsInfo;
@@ -93,6 +102,20 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
         OptionsInfo optionsInfo = new OptionsInfo();
         optionsInfo.setDrawableId(R.drawable.entry_setting);
         optionsInfo.setText("设置");
+        optionsInfo.setShowRight(true);
+        optionsInfo.setClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        return optionsInfo;
+    }
+
+    private OptionsInfo getRankOption(){
+        OptionsInfo optionsInfo = new OptionsInfo();
+        optionsInfo.setDrawableId(R.drawable.entry_rank);
+        optionsInfo.setText("排行榜");
         optionsInfo.setShowRight(true);
         optionsInfo.setClick(new View.OnClickListener() {
             @Override

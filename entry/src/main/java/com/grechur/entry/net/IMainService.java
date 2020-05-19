@@ -7,6 +7,7 @@ import com.grechur.entry.bean.Children;
 import com.grechur.entry.bean.HomePageInfo;
 import com.grechur.entry.bean.HotBean;
 import com.grechur.entry.bean.NavigationInfo;
+import com.grechur.entry.bean.RankPageInfo;
 import com.grechur.net.BaseResponse;
 import com.grechur.net.Empty;
 
@@ -101,4 +102,12 @@ public interface IMainService {
     @FormUrlEncoded
     @POST("/article/query/{pageNum}/json")
     Observable<BaseResponse<HomePageInfo>> queryArticle(@Path("pageNum") int pageNum, @Field("k") String key);
+
+    /**
+     * 积分排行榜接口
+     * @param pageNum
+     * @return
+     */
+    @GET("/coin/rank/{pageNum}/json")
+    Observable<BaseResponse<RankPageInfo>> rank(@Path("pageNum") int pageNum);
 }
