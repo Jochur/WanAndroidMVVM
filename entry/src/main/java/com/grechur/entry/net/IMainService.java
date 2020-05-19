@@ -5,6 +5,7 @@ import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.bean.BannerInfo;
 import com.grechur.entry.bean.Children;
 import com.grechur.entry.bean.HomePageInfo;
+import com.grechur.entry.bean.HotBean;
 import com.grechur.entry.bean.NavigationInfo;
 import com.grechur.net.BaseResponse;
 import com.grechur.net.Empty;
@@ -89,7 +90,7 @@ public interface IMainService {
      *搜索热词
      */
     @GET("/hotkey/json")
-    Observable<BaseResponse<List<ArticleInfo>>> hotKey();
+    Observable<BaseResponse<List<HotBean>>> hotKey();
 
     /**
      *  搜索

@@ -1,6 +1,7 @@
 package com.grechur.entry;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -88,6 +89,9 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
             @Override
             public void onClick(View view) {
                 ToastUtils.show("去搜索");
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,SearchActivity.class);
+                startActivity(intent);
             }
         });
         binding.setVariable(BR.tool,toolBar);

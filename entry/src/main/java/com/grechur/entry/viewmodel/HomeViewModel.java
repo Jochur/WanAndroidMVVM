@@ -38,8 +38,6 @@ public class HomeViewModel extends BaseViewModel {
             mainModel = new MainModel(mLiveData, netError, mLiveBanner);
             mainModel.banner();
             isFirst = true;
-            mainModel.homeArticle(0);
-            mainModel.topArticle();
         }
     }
 
@@ -53,6 +51,9 @@ public class HomeViewModel extends BaseViewModel {
     @Override
     public void onRefresh() {
         super.onRefresh();
+        List<ArticleInfo> value = mLiveData.getValue();
+        value.clear();
+        mLiveData.setValue(value);
         mainModel.homeArticle(0);
         mainModel.topArticle();
     }

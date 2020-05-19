@@ -15,7 +15,9 @@ import com.grechur.common.contant.Constants;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.entry.BR;
 import com.grechur.entry.R;
+import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.bean.Children;
+import com.grechur.entry.bean.HotBean;
 
 /**
  * @ProjectName: WanAndroidMVVM
@@ -46,7 +48,15 @@ public class TagView extends LinearLayout {
     }
 
     public void setData(Children children){
-        binding.setVariable(BR.children,children);
+        binding.setVariable(BR.name,children.getName());
+    }
+
+    public void setData(String s){
+        binding.setVariable(BR.name,s);
+    }
+
+    public void setData(HotBean hot){
+        binding.setVariable(BR.name,hot.getName());
     }
 
 //    public void onClick(Children children){

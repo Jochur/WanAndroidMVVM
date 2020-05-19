@@ -105,6 +105,7 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
                 viewModel.onRefresh();
             }
         });
+        viewModel.onRefresh();
     }
 
     @Override

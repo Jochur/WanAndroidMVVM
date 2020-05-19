@@ -63,14 +63,16 @@ public class ProjectModel {
                                 mTotalPage.setValue(false);
                             }
                             if(homePageInfo.getDatas()!=null&&!homePageInfo.getDatas().isEmpty()){
-                                mProjectData.setValue(homePageInfo.getDatas());
+                                List<ArticleInfo> value = mProjectData.getValue();
+                                value.addAll(homePageInfo.getDatas());
+                                mProjectData.setValue(value);
                             }
                         }
                     }
 
                     @Override
                     public void onError(ApiException e) {
-
+                        mError.setValue(e);
                     }
                 });
     }

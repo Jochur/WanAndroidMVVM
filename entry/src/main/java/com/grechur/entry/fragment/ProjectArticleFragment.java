@@ -31,7 +31,6 @@ import java.util.List;
 public class ProjectArticleFragment extends BaseFragment<ProjectViewArticleViewModel, EntryFragmentProjectArticleBinding> {
 
     private ProjectArticleAdapter mAdapter;
-    private List<ArticleInfo> mData;
     private int pageNum = 1;
     private int cid;
     @Override
@@ -39,8 +38,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectViewArticleViewM
 
         getIntentData();
 
-        mData = new ArrayList<>();
-        mAdapter = new ProjectArticleAdapter(getContext(),mData);
+        mAdapter = new ProjectArticleAdapter(getContext(),viewModel.getProjects());
         binding.projectRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.projectRecycleView.setAdapter(mAdapter);
 
@@ -54,7 +52,6 @@ public class ProjectArticleFragment extends BaseFragment<ProjectViewArticleViewM
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
-                mData.clear();
                 viewModel.projectArticle(pageNum,cid);
             }
         });
@@ -63,7 +60,6 @@ public class ProjectArticleFragment extends BaseFragment<ProjectViewArticleViewM
             @Override
             public void onChanged(List<ArticleInfo> articleInfos) {
                 if(articleInfos!=null&&!articleInfos.isEmpty()){
-                    mData.addAll(articleInfos);
                     mAdapter.notifyDataSetChanged();
                 }
                 if(binding.projectSmartRefresh.getState()== RefreshState.Refreshing) {

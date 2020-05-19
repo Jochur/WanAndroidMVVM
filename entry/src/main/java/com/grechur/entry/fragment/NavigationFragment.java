@@ -18,6 +18,7 @@ import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.util.GsonUtils;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
+import com.grechur.entry.bean.FragmentBean;
 import com.grechur.entry.bean.NavigationInfo;
 import com.grechur.entry.databinding.EntryFragmentNavigationBinding;
 import com.grechur.entry.viewmodel.NavigationViewModel;
@@ -36,7 +37,9 @@ import java.util.List;
  */
 public class NavigationFragment extends BaseReFragment<NavigationViewModel, EntryFragmentNavigationBinding> implements TabLayout.OnTabSelectedListener {
 
-    private List<Fragment> mFragments;
+//    private List<Fragment> mFragments;
+
+    private List<FragmentBean> mFragmentBeans;
 
     private FragmentStateAdapter mAdapter;
 
@@ -46,19 +49,30 @@ public class NavigationFragment extends BaseReFragment<NavigationViewModel, Entr
 
         binding.navigationTabLayout.addOnTabSelectedListener(this);
 
-        mFragments = new ArrayList<>();
+//        mFragments = new ArrayList<>();
+        mFragmentBeans = new ArrayList<>();
 
         mAdapter = new FragmentStateAdapter(this) {
             @NonNull
             @Override
             public Fragment createFragment(int position) {
-                Fragment fragment = mFragments.get(position);
+//                Fragment fragment = mFragments.get(position);
+                Class fragmentClass = mFragmentBeans.get(position).fragmentClass;
+                Fragment fragment = null;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                    fragment.setArguments(mFragmentBeans.get(position).bundle);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (java.lang.InstantiationException e) {
+                    e.printStackTrace();
+                }
                 return fragment;
             }
 
             @Override
             public int getItemCount() {
-                return mFragments.size();
+                return mFragmentBeans.size();
             }
         };
 
@@ -109,13 +123,17 @@ public class NavigationFragment extends BaseReFragment<NavigationViewModel, Entr
 
     private void setData(List<NavigationInfo> data){
         for (NavigationInfo mNavDatum : data) {
-            NavigationArticleFragment fragment = new NavigationArticleFragment();
+//            NavigationArticleFragment fragment = new NavigationArticleFragment();
             if (mNavDatum.getArticles() != null && !mNavDatum.getArticles().isEmpty()) {
                 String articles = GsonUtils.createArrayToString(mNavDatum.getArticles());
                 Bundle bundle = new Bundle();
                 bundle.putString("articles", articles);
-                fragment.setArguments(bundle);
-                mFragments.add(fragment);
+//                fragment.setArguments(bundle);
+//                mFragments.add(fragment);
+                FragmentBean fragmentBean = new FragmentBean();
+                fragmentBean.bundle = bundle;
+                fragmentBean.fragmentClass = NavigationArticleFragment.class;
+                mFragmentBeans.add(fragmentBean);
             }
 
         }

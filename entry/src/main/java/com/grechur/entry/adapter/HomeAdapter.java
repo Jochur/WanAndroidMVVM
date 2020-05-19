@@ -94,7 +94,7 @@ public class HomeAdapter extends BaseAdapter<ArticleInfo,BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mData.size()>0?mData.size():0;
+        return mData!=null?mData.size():0;
     }
 
 }
