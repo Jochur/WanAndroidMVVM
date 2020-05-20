@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="com.grechur.entry.R"/>
         <variable
             name="rank"
             type="com.grechur.entry.bean.RankInfo" />
+        <variable
+            name="position"
+            type="int" />
     </data>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/entry_home_item_bg"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_rank"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:text="@{rank.rank}"
+            tools:text="12"
+            android:gravity="center"
+            android:textSize="22sp"
+            />
+        <TextView
+            android:id="@+id/tv_rank_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="维尼"
+            android:text="@{rank.username}"
+            android:textSize="18sp"
+            android:textColor="@color/entry_title_text"
+            android:layout_toRightOf="@+id/tv_rank"
+            android:layout_marginTop="15dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="金币：2222 | 等级：10"
+            android:text='@{"金币："+rank.coinCount+" | 等级："+rank.level}'
+            android:textSize="14sp"
+            android:textColor="@color/entry_message_text"
+            android:layout_toRightOf="@+id/tv_rank"
+            android:layout_below="@+id/tv_rank_name"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
 </layout>
 

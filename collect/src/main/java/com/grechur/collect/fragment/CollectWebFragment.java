@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -15,6 +16,7 @@ import com.grechur.collect.bean.CollectWebInfo;
 import com.grechur.collect.databinding.CollectFragmentWebBinding;
 import com.grechur.collect.view.DeleteDialogFragment;
 import com.grechur.collect.view.EditDialogFragment;
+import com.grechur.collect.view.WebItemTouch;
 import com.grechur.collect.viewmodel.CollectWebViewModel;
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.contant.Constants;
@@ -97,6 +99,9 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
 
         mAdapter.setItemClickListener(this);
 
+        WebItemTouch touch = new WebItemTouch();
+        ItemTouchHelper helper = new ItemTouchHelper(touch);
+        helper.attachToRecyclerView(binding.collectRecycleView);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import androidx.annotation.RestrictTo;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.grechur.common.base.BaseViewModel;
 import com.grechur.entry.bean.RankInfo;

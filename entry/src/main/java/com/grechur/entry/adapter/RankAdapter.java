@@ -3,9 +3,16 @@ package com.grechur.entry.adapter;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+
 import com.grechur.common.base.BaseAdapter;
 import com.grechur.common.base.BaseViewHolder;
+import com.grechur.common.listener.OnItemClickListener;
+import com.grechur.entry.BR;
+import com.grechur.entry.R;
 import com.grechur.entry.bean.RankInfo;
+import com.grechur.entry.databinding.EntryItemRankBinding;
 
 import java.util.List;
 
@@ -24,16 +31,29 @@ public class RankAdapter extends BaseAdapter<RankInfo, BaseViewHolder> {
 
     @Override
     protected BaseViewHolder onCreateVH(ViewGroup parent, int viewType) {
-        return null;
+        EntryItemRankBinding binding = DataBindingUtil.inflate(mInflater, R.layout.entry_item_rank, parent, false);
+        return new BaseViewHolder(binding);
     }
 
     @Override
     protected void onBindVH(BaseViewHolder holder, int position) {
-
+        EntryItemRankBinding binding = (EntryItemRankBinding) holder.getBinding();
+        binding.setVariable(BR.rank,mData.get(position));
+        if(position == 0){
+            binding.tvRank.setBackgroundResource(R.drawable.entry_rank_bg_one);
+        }else if(position == 1){
+            binding.tvRank.setBackgroundResource(R.drawable.entry_rank_bg_two);
+        }else if(position == 2){
+            binding.tvRank.setBackgroundResource(R.drawable.entry_rank_bg_three);
+        }else{
+            binding.tvRank.setBackgroundResource(R.drawable.entry_rank_bg_common);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mData == null ? 0 : mData.size();
     }
+
+
 }

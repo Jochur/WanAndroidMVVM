@@ -1,5 +1,6 @@
 package com.grechur.entry.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.util.SpUtils;
 import com.grechur.entry.R;
+import com.grechur.entry.RankActivity;
 import com.grechur.entry.bean.OptionsInfo;
 import com.grechur.entry.databinding.EntryFragmentMineBinding;
 import com.grechur.entry.viewmodel.MineViewModel;
@@ -120,7 +122,9 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
         optionsInfo.setClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent();
+                intent.setClass(getContext(), RankActivity.class);
+                startActivity(intent);
             }
         });
         return optionsInfo;
