@@ -2,6 +2,7 @@ package com.grechur.common.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.hardware.Camera;
 import android.os.Build;
 
 import androidx.multidex.MultiDex;
@@ -9,8 +10,14 @@ import androidx.multidex.MultiDex;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.BuildConfig;
 import com.grechur.common.DefaultHttpService;
+import com.grechur.common.callback.CustomCallback;
+import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
+import com.grechur.common.callback.LoadingCallback;
+import com.grechur.common.callback.TimeoutCallback;
 import com.grechur.common.util.DevicesUtils;
 import com.grechur.common.util.SSLSocketFactoryHelper;
+import com.kingja.loadsir.core.LoadSir;
 
 
 /**
@@ -46,6 +53,15 @@ public class SelfApplication extends Application {
             ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
+
+        LoadSir.beginBuilder()
+                .addCallback(new ErrorCallback())//'添加各种状态页
+                .addCallback(new EmptyCallback())
+                .addCallback(new LoadingCallback())
+                .addCallback(new TimeoutCallback())
+                .addCallback(new CustomCallback())
+                .setDefaultCallback(LoadingCallback.class)//设置默认状态页
+                .commit();
     }
 
     private boolean isDebug() {
