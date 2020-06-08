@@ -75,21 +75,22 @@ public class HomeAdapter extends BaseAdapter<ArticleInfo,BaseViewHolder> {
     }
 
     public void imgClick(final ArticleInfo articleInfo, int position){
-        MainApi.getInstance()
-                .collectArticle(articleInfo.getId())
-                .subscribe(new BaseSubscriber<Empty>() {
-                    @Override
-                    public void onNext(Empty empty) {
-                        articleInfo.setZan(1);
-                        notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError(ApiException e) {
-                        if(e!=null)
-                            ToastUtils.show(e.getMessage());
-                    }
-                });
+        articleInfo.setZan(1);
+//        MainApi.getInstance()
+//                .collectArticle(articleInfo.getId())
+//                .subscribe(new BaseSubscriber<Empty>() {
+//                    @Override
+//                    public void onNext(Empty empty) {
+//
+////                        notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onError(ApiException e) {
+//                        if(e!=null)
+//                            ToastUtils.show(e.getMessage());
+//                    }
+//                });
     }
 
     @Override
