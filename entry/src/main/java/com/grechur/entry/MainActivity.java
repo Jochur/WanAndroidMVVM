@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
             public void onClick(View view) {
                 ToastUtils.show("去搜索");
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,SearchActivity.class);
+                intent.setClass(MainActivity.this,TestActivity.class);
                 startActivity(intent);
             }
         });

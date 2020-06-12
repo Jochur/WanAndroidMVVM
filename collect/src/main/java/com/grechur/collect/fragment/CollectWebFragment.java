@@ -19,6 +19,7 @@ import com.grechur.collect.view.EditDialogFragment;
 import com.grechur.collect.view.WebItemTouch;
 import com.grechur.collect.viewmodel.CollectWebViewModel;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.callback.EmptyCallback;
 import com.grechur.common.contant.Constants;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.itemtouchhelper.DNItemTouchHelper;
@@ -48,6 +49,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        loadService.showSuccess();
         mData = new ArrayList<>();
         mAdapter = new CollectWebAdapter(getContext(),mData);
         binding.collectRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));

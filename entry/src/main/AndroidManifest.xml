@@ -15,6 +15,7 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".SearchResultActivity" />
         <activity android:name=".RankActivity" />
+        <activity android:name=".TestActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

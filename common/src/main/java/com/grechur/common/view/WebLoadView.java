@@ -109,7 +109,6 @@ public class WebLoadView extends View{
                 float value = (float) animation.getAnimatedValue();
                 mCurrentAng = value;
                 invalidate();
-//                requestLayout();
             }
         });
 

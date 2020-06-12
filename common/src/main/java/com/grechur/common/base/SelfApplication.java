@@ -58,7 +58,6 @@ public class SelfApplication extends Application {
                 .addCallback(new ErrorCallback())//'添加各种状态页
                 .addCallback(new EmptyCallback())
                 .addCallback(new LoadingCallback())
-                .addCallback(new TimeoutCallback())
                 .addCallback(new CustomCallback())
                 .setDefaultCallback(LoadingCallback.class)//设置默认状态页
                 .commit();

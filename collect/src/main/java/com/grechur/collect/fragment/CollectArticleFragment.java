@@ -13,6 +13,8 @@ import com.grechur.collect.bean.ArticleInfo;
 import com.grechur.collect.databinding.CollectFragmentArticleBinding;
 import com.grechur.collect.viewmodel.CollectArticleViewModel;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.net.ApiException;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -60,9 +62,12 @@ public class CollectArticleFragment extends BaseFragment<CollectArticleViewModel
         viewModel.mData.observe(this, new Observer<List<ArticleInfo>>() {
             @Override
             public void onChanged(List<ArticleInfo> articleInfos) {
+                loadService.showSuccess();
                 if(articleInfos!=null&&!articleInfos.isEmpty()){
                     mData.addAll(articleInfos);
                     mAdapter.notifyDataSetChanged();
+                }else{
+                    loadService.showCallback(EmptyCallback.class);
                 }
                 if(binding.collectSmartRefresh.getState()== RefreshState.Loading){
                     binding.collectSmartRefresh.finishLoadMore();
@@ -76,6 +81,7 @@ public class CollectArticleFragment extends BaseFragment<CollectArticleViewModel
         viewModel.mError.observe(this, new Observer<ApiException>() {
             @Override
             public void onChanged(ApiException e) {
+                loadService.showCallback(ErrorCallback.class);
                 if(e!=null){
                     ToastUtils.show(e.getMessage());
                 }

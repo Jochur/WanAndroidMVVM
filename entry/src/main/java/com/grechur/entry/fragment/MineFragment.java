@@ -36,6 +36,12 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
         binding.entryCollect.setOptions(getCollectOption());
         binding.entrySet.setOptions(getSetOption());
         binding.entryRank.setOptions(getRankOption());
+        binding.entryCollect.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadService.showSuccess();
+            }
+        },100);
     }
 
     @Override

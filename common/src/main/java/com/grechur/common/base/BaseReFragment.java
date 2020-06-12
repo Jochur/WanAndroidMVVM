@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.BR;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -32,6 +34,7 @@ public abstract class BaseReFragment<VM extends BaseViewModel,VDB extends ViewDa
 
 
     private View rootView;
+    protected LoadService loadService;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,8 +60,10 @@ public abstract class BaseReFragment<VM extends BaseViewModel,VDB extends ViewDa
                 parent.removeView(rootView);
             }
         }
+        loadService = LoadSir.getDefault().register(rootView);
         initView(savedInstanceState);
-        return rootView;
+
+        return loadService.getLoadLayout();
     }
 
 
