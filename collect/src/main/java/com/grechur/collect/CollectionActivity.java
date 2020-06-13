@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,11 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.grechur.collect.databinding.CollectActivityCollectionBinding;
 import com.grechur.collect.fragment.CollectArticleFragment;
 import com.grechur.collect.fragment.CollectWebFragment;
+import com.grechur.collect.fragment.CollectWebFragment1;
+import com.grechur.collect.paging.Concert;
+import com.grechur.collect.paging.ConcertActivity;
+import com.grechur.collect.paging.ConcertDao;
+import com.grechur.collect.paging.ConcertDatabase;
 import com.grechur.collect.viewmodel.CollectViewModel;
 import com.grechur.common.ToolBar;
 import com.grechur.common.base.BaseActivity;
@@ -34,13 +40,14 @@ public class CollectionActivity extends BaseActivity<CollectViewModel, CollectAc
 
     @Override
     protected void initView() {
+        setData();
         mData = new ArrayList<>();
         mData.add("文章");
         mData.add("网址");
 
         mFragments = new ArrayList<>();
         CollectArticleFragment articleFragment = new CollectArticleFragment();
-        CollectWebFragment webFragment = new CollectWebFragment();
+        CollectWebFragment1 webFragment = new CollectWebFragment1();
         mFragments.add(articleFragment);
         mFragments.add(webFragment);
 
@@ -76,8 +83,20 @@ public class CollectionActivity extends BaseActivity<CollectViewModel, CollectAc
         ToolBar toolBar = new ToolBar();
         toolBar.setToolTitle("收藏");
         toolBar.setShowBack(true);
+        toolBar.setShowRight(true);
         toolBar.setOnClick(this);
         binding.setTool(toolBar);
+    }
+
+    private void setData() {
+        ConcertDao concertDao = ConcertDatabase.getInstance(this).concertDao();
+        for (int i = 0; i < 10; i++) {
+            Concert concert = new Concert();
+            concert.setName("张三"+i);
+            concert.setPhone("1590666666"+i);
+            concert.setDate(System.currentTimeMillis());
+            concertDao.insertDate(concert);
+        }
     }
 
     @Override
@@ -104,6 +123,10 @@ public class CollectionActivity extends BaseActivity<CollectViewModel, CollectAc
     public void onClick(View view) {
         if(view.getId() == R.id.iv_back){
             onBackPressed();
+        } else if (view.getId() == R.id.iv_right) {
+            Intent intent = new Intent();
+            intent.setClass(this, ConcertActivity.class);
+            startActivity(intent);
         }
     }
 }

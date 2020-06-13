@@ -20,6 +20,7 @@ import com.grechur.collect.view.WebItemTouch;
 import com.grechur.collect.viewmodel.CollectWebViewModel;
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
 import com.grechur.common.contant.Constants;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.itemtouchhelper.DNItemTouchHelper;
@@ -58,6 +59,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
         viewModel.mWebData.observe(this, new Observer<List<CollectWebInfo>>() {
             @Override
             public void onChanged(List<CollectWebInfo> collectWebInfos) {
+                loadService.showSuccess();
                 if(collectWebInfos!=null&&!collectWebInfos.isEmpty()){
                     mData.addAll(collectWebInfos);
                     mAdapter.notifyDataSetChanged();
@@ -68,6 +70,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
         viewModel.mError.observe(this, new Observer<ApiException>() {
             @Override
             public void onChanged(ApiException e) {
+                loadService.showCallback(ErrorCallback.class);
                 if(e != null){
                     if(e.getCode() == 0){
                         mData.remove(mPosition);

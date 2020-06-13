@@ -3,8 +3,10 @@
     package="com.grechur.collect">
 
     <application>
-        <activity android:name=".CollectionActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".paging.ConcertActivity"></activity>
+        <activity
+            android:name=".CollectionActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
