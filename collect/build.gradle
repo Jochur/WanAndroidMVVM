@@ -43,8 +43,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.room:room-runtime:2.2.2'
-    annotationProcessor 'androidx.room:room-compiler:2.2.2'
+
     def dependencies = rootProject.ext.dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -59,8 +58,7 @@ dependencies {
     annotationProcessor dependencies.router_annotation
     annotationProcessor dependencies.router_compile
     implementation dependencies.material
-    implementation dependencies.paging
-    testImplementation dependencies.paging_common
+
 }
 //////// 打包发布配置开始 ////////
 apply plugin: 'maven'

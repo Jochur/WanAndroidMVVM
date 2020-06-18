@@ -31,7 +31,12 @@ public class ConcertViewModel extends BaseViewModel {
     public final LiveData<PagedList<Concert>> concertList;
     public ConcertViewModel() {
         this.concertDao = ConcertDatabase.getInstance(Applications.getCurrent()).concertDao();
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setPageSize(20)
+                .setEnablePlaceholders(true)
+                .build();
         concertList = new LivePagedListBuilder<>(
-                concertDao.concertsByDate(), /* page size */ 10).build();
+                concertDao.concertsByDate(), config)
+                .build();
     }
 }

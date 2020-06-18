@@ -1,10 +1,13 @@
 package com.grechur.entry;
 
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
+import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -14,12 +17,14 @@ import com.grechur.common.base.BaseActivity;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.adapter.HomeAdapter;
+import com.grechur.entry.adapter.SystemArticleAdapter;
 import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.databinding.EntryActivitySystemArticleBinding;
 import com.grechur.entry.viewmodel.SystemArticleViewModel;
 import com.grechur.net.ApiException;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
@@ -35,8 +40,7 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
 
     private int pageNum = 0;
 
-    private HomeAdapter homeAdapter;
-    private List<ArticleInfo> mData;
+    private SystemArticleAdapter systemArticleAdapter;
 
 
     @Override
@@ -45,64 +49,19 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
         cid = getIntent().getIntExtra("cid",0);
         system_title = getIntent().getStringExtra("system_title");
 
-        viewModel.getSystemArticle(pageNum,cid);
-
-        mData = new ArrayList<>();
-        homeAdapter = new HomeAdapter(this,mData);
+        systemArticleAdapter = new SystemArticleAdapter();
 
         binding.systemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.systemRecyclerView.setAdapter(homeAdapter);
+        binding.systemRecyclerView.setAdapter(systemArticleAdapter);
 
-        viewModel.totalPage.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean integer) {
-                if(!integer){
-                    if(binding.systemSmartRefresh.getState() == RefreshState.Loading){
-                        binding.systemSmartRefresh.finishLoadMore();
-                    }
-                    binding.systemSmartRefresh.setNoMoreData(true);
-                }
-            }
-        });
+        viewModel.getData(pageNum,cid);
 
-        viewModel.mArticleData.observe(this, new Observer<List<ArticleInfo>>() {
-            @Override
-            public void onChanged(List<ArticleInfo> articleInfos) {
-                if(articleInfos!=null&&!articleInfos.isEmpty()){
-                    mData.addAll(articleInfos);
-                    homeAdapter.notifyDataSetChanged();
-                    if(binding.systemSmartRefresh.getState() == RefreshState.Loading){
-                        binding.systemSmartRefresh.finishLoadMore();
-                    }
-                    if(binding.systemSmartRefresh.getState() == RefreshState.Refreshing){
-                        binding.systemSmartRefresh.finishRefresh();
-                    }
-                }
-            }
-        });
+        viewModel.getPageData().observe(this, observer);
 
-        binding.systemSmartRefresh.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                pageNum ++;
-                viewModel.getSystemArticle(pageNum,cid);
-
-            }
-
+        binding.systemSmartRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                pageNum = 0;
-                mData.clear();
-                viewModel.getSystemArticle(pageNum,cid);
-            }
-        });
-
-        viewModel.mError.observe(this, new Observer<ApiException>() {
-            @Override
-            public void onChanged(ApiException e) {
-                if(e!=null){
-                    ToastUtils.show(e.getMessage());
-                }
+                viewModel.getPageData().getValue().getDataSource().invalidate();
             }
         });
 
@@ -125,4 +84,16 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
     public void onClick(View view) {
         onBackPressed();
     }
+
+    Observer<PagedList<ArticleInfo>> observer = new Observer<PagedList<ArticleInfo>>() {
+        @Override
+        public void onChanged(PagedList<ArticleInfo> articleInfos) {
+            systemArticleAdapter.submitList(articleInfos);
+            Log.e("SystemArticleViewModel","isDetached:"+articleInfos.isDetached()+" isImmutable:"+articleInfos.isImmutable());
+            Log.e("SystemArticleViewModel","size:"+systemArticleAdapter.getCurrentList().size()+" articleInfos:"+articleInfos.size());
+            if(binding.systemSmartRefresh!=null&&binding.systemSmartRefresh.getState() == RefreshState.Refreshing){
+                binding.systemSmartRefresh.finishRefresh();
+            }
+        }
+    };
 }

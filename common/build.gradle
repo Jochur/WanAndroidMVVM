@@ -66,4 +66,8 @@ dependencies {
     api dependencies.glide
     annotationProcessor dependencies.glideCompiler
     api dependencies.loadsir
+    api dependencies.paging
+    testApi dependencies.paging_common
+    api dependencies.room
+    annotationProcessor dependencies.room_complie
 }
