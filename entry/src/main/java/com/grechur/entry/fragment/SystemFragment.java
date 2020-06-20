@@ -58,6 +58,7 @@ public class SystemFragment extends BaseReFragment<SystemViewModel, EntryFragmen
                 public void onChanged(List<Children> children) {
                     loadService.showSuccess();
                     if (children != null && !children.isEmpty()) {
+                        setFirst(children);
                         viewModel.mLeftData.addAll(children);
                         mAdapter.notifyDataSetChanged();
                     }else{
@@ -103,6 +104,30 @@ public class SystemFragment extends BaseReFragment<SystemViewModel, EntryFragmen
             }
         });
 
+    }
+
+    private void setFirst(List<Children> children) {
+        binding.systemFlexBox.removeAllViews();
+        Children ch = children.get(0);
+        ch.setHasSelect(true);
+        List<Children> rightData = children.get(0).getChildren();
+        if(rightData!=null&&!rightData.isEmpty()){
+            for (final Children rightDatum : rightData) {
+                TagView tagView = new TagView(getContext());
+                tagView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), SystemArticleActivity.class)
+                                .putExtra("cid",rightDatum.getId())
+                                .putExtra("system_title",rightDatum.getName());
+                        startActivity(intent);
+                    }
+                });
+                tagView.setData(rightDatum);
+                binding.systemFlexBox.addView(tagView);
+            }
+        }
     }
 
     @Override

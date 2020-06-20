@@ -12,16 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.ToolBar;
 import com.grechur.common.base.BaseActivity;
+import com.grechur.common.contant.Constants;
 import com.grechur.common.contant.RouterSchame;
+import com.grechur.common.listener.OnItemClickListener;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.adapter.HomeAdapter;
 import com.grechur.entry.adapter.SystemArticleAdapter;
 import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.databinding.EntryActivitySystemArticleBinding;
+import com.grechur.entry.net.impl.MainApi;
 import com.grechur.entry.viewmodel.SystemArticleViewModel;
 import com.grechur.net.ApiException;
+import com.grechur.net.BaseSubscriber;
+import com.grechur.net.Empty;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -46,7 +52,7 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
     @Override
     protected void initView() {
 
-        cid = getIntent().getIntExtra("cid",0);
+        cid = getIntent().getIntExtra("cid", 0);
         system_title = getIntent().getStringExtra("system_title");
 
         systemArticleAdapter = new SystemArticleAdapter();
@@ -54,7 +60,7 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
         binding.systemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.systemRecyclerView.setAdapter(systemArticleAdapter);
 
-        viewModel.getData(pageNum,cid);
+        viewModel.getData(pageNum, cid);
 
         viewModel.getPageData().observe(this, observer);
 
@@ -73,6 +79,47 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
 
         binding.setTool(toolBar);
 
+        systemArticleAdapter.setOnItemClick(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                int id = view.getId();
+                if (id == R.id.entry_item_zan) {
+                    PagedList<ArticleInfo> currentList = systemArticleAdapter.getCurrentList();
+                    if (currentList != null) {
+                        final ArticleInfo articleInfo = currentList.get(position);
+                        MainApi.getInstance()
+                                .collectArticle(articleInfo.getId())
+                                .subscribe(new BaseSubscriber<Empty>() {
+                                    @Override
+                                    public void onNext(Empty empty) {
+                                        articleInfo.setZan(1);
+                                    }
+
+                                    @Override
+                                    public void onError(ApiException e) {
+                                        if (e != null) {
+                                            if (e.getCode() == 0) {
+                                                articleInfo.setZan(1);
+                                            } else {
+                                                ToastUtils.show(e.getMessage());
+                                            }
+                                        }
+                                    }
+                                });
+                    }
+                } else if (id == R.id.rl_system_art_item) {
+                    PagedList<ArticleInfo> currentList = systemArticleAdapter.getCurrentList();
+                    if (currentList != null) {
+                        final ArticleInfo articleInfo = currentList.get(position);
+                        ARouter.getInstance()
+                                .build(RouterSchame.WEB_VIEW_ACTIVITY)
+                                .withString(Constants.INTENT_URL, articleInfo.getLink())
+                                .withString(Constants.INTENT_TITLE, articleInfo.getTitle())
+                                .navigation();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -89,9 +136,9 @@ public class SystemArticleActivity extends BaseActivity<SystemArticleViewModel, 
         @Override
         public void onChanged(PagedList<ArticleInfo> articleInfos) {
             systemArticleAdapter.submitList(articleInfos);
-            Log.e("SystemArticleViewModel","isDetached:"+articleInfos.isDetached()+" isImmutable:"+articleInfos.isImmutable());
-            Log.e("SystemArticleViewModel","size:"+systemArticleAdapter.getCurrentList().size()+" articleInfos:"+articleInfos.size());
-            if(binding.systemSmartRefresh!=null&&binding.systemSmartRefresh.getState() == RefreshState.Refreshing){
+            Log.e("SystemArticleViewModel", "isDetached:" + articleInfos.isDetached() + " isImmutable:" + articleInfos.isImmutable());
+            Log.e("SystemArticleViewModel", "size:" + systemArticleAdapter.getCurrentList().size() + " articleInfos:" + articleInfos.size());
+            if (binding.systemSmartRefresh != null && binding.systemSmartRefresh.getState() == RefreshState.Refreshing) {
                 binding.systemSmartRefresh.finishRefresh();
             }
         }

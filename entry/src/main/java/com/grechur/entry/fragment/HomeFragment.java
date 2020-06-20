@@ -1,15 +1,18 @@
 package com.grechur.entry.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.grechur.common.base.BaseFragment;
@@ -59,7 +62,7 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
                 @Override
                 public void onChanged(List<ArticleInfo> articleInfos) {
                     loadService.showSuccess();
-                    if (articleInfos != null && !articleInfos.isEmpty()) {
+                    if (articleInfos != null) {
 //                        Log.e("BaseFragment", " articleInfos:" + articleInfos.size());
                         mAdapter.notifyDataSetChanged();
                     }else{
@@ -115,6 +118,10 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
             }
         });
         viewModel.onRefresh();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            binding.appBar.setOutlineProvider(null);
+            binding.ctlColl.setOutlineProvider(ViewOutlineProvider.BOUNDS);
+        }
     }
 
     @Override
@@ -137,5 +144,6 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
     @Override
     public void onDestroy() {
         super.onDestroy();
+        binding.banner.destroy();
     }
 }

@@ -77,8 +77,15 @@ public class MyViewPager extends ViewGroup {
             case MotionEvent.ACTION_UP:
                 Log.e("MyViewPager","getScrollX():"+getScrollX());
                 Log.e("MyViewPager","getWidth():"+getWidth());
-                Log.e("MyViewPager","move:"+(mLastX - x));
-                int index = (getScrollX() + getWidth()*2 / 3) / getWidth();
+                Log.e("MyViewPager","move:"+mLastX);
+                int move = mLastX;
+                int index = 0;
+                if(move>=0){
+                    index = (getScrollX() - getWidth()*2 / 3) / getWidth();
+                }else{
+                    index = (getScrollX() + getWidth()*2 / 3) / getWidth();
+                }
+
                 Log.e("MyViewPager","index:"+index);
                 scrollTo(index * getWidth(),getChildCount());
                 mLastX = x;

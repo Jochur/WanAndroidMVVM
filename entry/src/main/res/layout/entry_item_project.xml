@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 tools:text="时间：2018-05-08 05:12"
-                android:text='"时间："+@{article.niceDate}'
+                android:text='@{"时间："+article.niceDate}'
                 android:textColor="@color/entry_info_text"
                 android:layout_marginBottom="10dp"/>
             <TextView
