@@ -1,5 +1,8 @@
 package com.grechur.collect.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.collect.bean.CollectWebInfo;
@@ -27,7 +30,8 @@ public class CollectWebViewModel extends BaseViewModel {
 
     public MutableLiveData<Boolean> delete = new MutableLiveData<>();
 
-    public CollectWebViewModel() {
+    public CollectWebViewModel(@NonNull Application application) {
+        super(application);
         collectModel = new CollectModel(null,mError,mWebData);
         collectModel.setWebInfo(mWebInfo);
         collectModel.setDelete(delete);

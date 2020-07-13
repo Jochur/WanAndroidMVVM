@@ -1,5 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.common.base.BaseViewModel;
@@ -26,7 +29,8 @@ public class ProjectViewModel extends BaseViewModel {
     public MutableLiveData<List<Children>> mTreeData = new MutableLiveData<>();
     public MutableLiveData<ApiException> mError = new MutableLiveData<>();
 
-    public ProjectViewModel() {
+    public ProjectViewModel(@NonNull Application application) {
+        super(application);
         mData = new ArrayList<>();
         projectModel = new ProjectModel(mTreeData,mError,null);
         projectModel.projectTree();

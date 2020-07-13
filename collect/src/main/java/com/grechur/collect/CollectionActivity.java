@@ -1,13 +1,20 @@
 package com.grechur.collect;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.slice.Slice;
+import androidx.slice.builders.GridRowBuilder;
+import androidx.slice.builders.ListBuilder;
+import androidx.slice.builders.SliceAction;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -129,4 +136,50 @@ public class CollectionActivity extends BaseActivity<CollectViewModel, CollectAc
             startActivity(intent);
         }
     }
+
+//    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//    public Slice createSliceWithGridRow(Uri sliceUri) {
+//        if (this == null) {
+//            return null;
+//        }
+//        // Create the parent builder.
+//        ListBuilder listBuilder = new ListBuilder(this, sliceUri, ListBuilder.INFINITY)
+//                .setHeader(
+//                        // Create the header.
+//                        new ListBuilder.HeaderBuilder()
+//                                .setTitle("Famous restaurants")
+//                                .setPrimaryAction(SliceAction
+//                                        .create(pendingIntent, icon, ListBuilder.ICON_IMAGE,
+//                                                "Famous restaurants"))
+//                )
+//                // Add a grid row to the list.
+//                .addGridRow(new GridRowBuilder()
+//                        // Add cells to the grid row.
+//                        .addCell(new GridRowBuilder.CellBuilder()
+//                                .addImage(image1, ListBuilder.LARGE_IMAGE)
+//                                .addTitleText("Top Restaurant")
+//                                .addText("0.3 mil")
+//                                .setContentIntent(intent1)
+//                        ).addCell(new GridRowBuilder.CellBuilder()
+//                                .addImage(image2, ListBuilder.LARGE_IMAGE)
+//                                .addTitleText("Fast and Casual")
+//                                .addText("0.5 mil")
+//                                .setContentIntent(intent2)
+//                        )
+//                        .addCell(new GridRowBuilder.CellBuilder()
+//                                .addImage(image3, ListBuilder.LARGE_IMAGE)
+//                                .addTitleText("Casual Diner")
+//                                .addText("0.9 mi")
+//                                .setContentIntent(intent3))
+//                        .addCell(new GridRowBuilder.CellBuilder()
+//                                .addImage(image4, ListBuilder.LARGE_IMAGE)
+//                                .addTitleText("Ramen Spot")
+//                                .addText("1.2 mi")
+//                                .setContentIntent(intent4))
+//                        // Every slice needs a primary action.
+//                        .setPrimaryAction(createActivityAction())
+//                );
+//        return listBuilder.build();
+//    }
+
 }

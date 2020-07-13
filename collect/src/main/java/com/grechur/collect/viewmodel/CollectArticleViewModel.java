@@ -1,5 +1,8 @@
 package com.grechur.collect.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.collect.bean.ArticleInfo;
@@ -24,7 +27,8 @@ public class CollectArticleViewModel extends BaseViewModel {
 
     CollectModel collectModel;
 
-    public CollectArticleViewModel() {
+    public CollectArticleViewModel(@NonNull Application application) {
+        super(application);
         collectModel = new CollectModel(mData,mError,null);
         collectModel.setCanLoad(canLoad);
 

@@ -1,8 +1,10 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
@@ -33,9 +35,10 @@ public class SystemArticleViewModel extends BaseViewModel {
     private LiveData<PagedList<ArticleInfo>> mData;
     private SystemArticleFactory systemArticleFactory;
 
-    public SystemArticleViewModel() {
-
+    public SystemArticleViewModel(@NonNull Application application) {
+        super(application);
     }
+
 
     public void getData(int pageNum,int cid){
         if(pageNum == 0) {

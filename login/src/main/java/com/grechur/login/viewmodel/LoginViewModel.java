@@ -1,7 +1,9 @@
 package com.grechur.login.viewmodel;
 
+import android.app.Application;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 
@@ -28,7 +30,8 @@ public class LoginViewModel extends BaseViewModel {
 
     public UserModel userModel;
 
-    public LoginViewModel() {
+    public LoginViewModel(@NonNull Application application) {
+        super(application);
         userModel = new UserModel();
     }
 

@@ -1,5 +1,9 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+
 import com.grechur.common.base.BaseViewModel;
 
 /**
@@ -11,6 +15,7 @@ import com.grechur.common.base.BaseViewModel;
  */
 public class NavigationArticleViewModel extends BaseViewModel {
 
-    public NavigationArticleViewModel() {
+    public NavigationArticleViewModel(@NonNull Application application) {
+        super(application);
     }
 }

@@ -1,7 +1,9 @@
 package com.grechur.collect.paging;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -29,7 +31,8 @@ import io.reactivex.Observable;
 public class ConcertViewModel extends BaseViewModel {
     private ConcertDao concertDao;
     public final LiveData<PagedList<Concert>> concertList;
-    public ConcertViewModel() {
+    public ConcertViewModel(@NonNull Application application) {
+        super(application);
         this.concertDao = ConcertDatabase.getInstance(Applications.getCurrent()).concertDao();
         PagedList.Config config = new PagedList.Config.Builder()
                 .setPageSize(20)

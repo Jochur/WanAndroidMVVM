@@ -1,5 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -7,15 +10,10 @@ import com.grechur.common.base.BaseViewModel;
 import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.bean.Children;
 import com.grechur.entry.model.ProjectModel;
-import com.grechur.entry.model.paging3.ProjectArticleSource;
 import com.grechur.net.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import kotlin.jvm.functions.Function0;
-import kotlinx.coroutines.flow.Flow;
-
 /**
  * @ProjectName: WanAndroidMVVM
  * @ClassName: ProjectViewModel
@@ -32,7 +30,8 @@ public class ProjectViewArticleViewModel extends BaseViewModel {
 
     public MutableLiveData<Boolean> totalPage = new MutableLiveData<>();
 
-    public ProjectViewArticleViewModel() {
+    public ProjectViewArticleViewModel(@NonNull Application application) {
+        super(application);
         mProjectData.setValue(new ArrayList<ArticleInfo>());
         projectModel = new ProjectModel(null,mError,mProjectData);
         projectModel.setTotalPage(totalPage);

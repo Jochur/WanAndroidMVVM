@@ -46,14 +46,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    def lifecycle_version = "2.2.0"
-    api "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    api dependencies.lifecycle
+    api dependencies.lifecycleViewmodel
 
     api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    api "com.facebook.stetho:stetho:1.5.0"
-    api "com.facebook.stetho:stetho-okhttp3:1.5.0"
-    api 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    api dependencies.stetho
+    api dependencies.stethoOkhttp
+    api dependencies.localbroad
 
     api  dependencies.router
     annotationProcessor dependencies.router_annotation
@@ -70,4 +69,9 @@ dependencies {
     testApi dependencies.paging_common
     api dependencies.room
     annotationProcessor dependencies.room_complie
+
+    api dependencies.slice
+    api dependencies.work_runtime
+    api dependencies.work_rxjava2
+    api dependencies.work_gcm
 }

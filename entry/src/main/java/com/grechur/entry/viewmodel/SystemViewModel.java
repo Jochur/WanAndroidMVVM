@@ -1,5 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.common.base.BaseViewModel;
@@ -25,7 +28,8 @@ public class SystemViewModel extends BaseViewModel {
 
     public List<Children> mLeftData;
 
-    public SystemViewModel() {
+    public SystemViewModel(@NonNull Application application) {
+        super(application);
         systemModel = new SystemModel(mData,mError,null);
         systemModel.systemTree();
 

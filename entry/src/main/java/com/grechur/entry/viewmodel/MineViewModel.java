@@ -1,5 +1,9 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+
 import com.grechur.common.base.BaseViewModel;
 
 /**
@@ -12,6 +16,7 @@ import com.grechur.common.base.BaseViewModel;
 public class MineViewModel extends BaseViewModel {
 
 
-
-
+    public MineViewModel(@NonNull Application application) {
+        super(application);
+    }
 }
