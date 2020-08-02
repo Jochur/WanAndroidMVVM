@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.callback.EmptyCallback;
 import com.grechur.entry.R;
 import com.grechur.entry.adapter.HomeAdapter;
 import com.grechur.entry.bean.ArticleInfo;
@@ -36,6 +37,12 @@ public class NavigationArticleFragment extends BaseFragment<NavigationArticleVie
         mAdapter = new HomeAdapter(getContext(),mData);
         binding.navArtRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.navArtRecycleView.setAdapter(mAdapter);
+        binding.navArtRecycleView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadService.showSuccess();
+            }
+        },100);
     }
 
     private void getData() {

@@ -1,5 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.fragment.app.Fragment;
@@ -32,7 +35,8 @@ public class MainViewModel extends BaseViewModel {
     public IHomeService service;
     public int position = 0;
 
-    public MainViewModel() {
+    public MainViewModel(@NonNull Application application) {
+        super(application);
 
         homeFragment = new HomeFragment();
         systemFragment = new SystemFragment();

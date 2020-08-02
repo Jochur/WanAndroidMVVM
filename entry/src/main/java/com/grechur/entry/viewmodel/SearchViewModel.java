@@ -1,5 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 
@@ -27,7 +30,8 @@ public class SearchViewModel extends BaseViewModel {
 
     private SearchModel searchModel;
 
-    public SearchViewModel() {
+    public SearchViewModel(@NonNull Application application) {
+        super(application);
         mSearch.setValue(new ArrayList<SearchBean>());
         searchModel = new SearchModel(mSearch,mError);
 

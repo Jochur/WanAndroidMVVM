@@ -81,13 +81,17 @@ public class HomeAdapter extends BaseAdapter<ArticleInfo,BaseViewHolder> {
                     @Override
                     public void onNext(Empty empty) {
                         articleInfo.setZan(1);
-                        notifyDataSetChanged();
                     }
 
                     @Override
                     public void onError(ApiException e) {
-                        if(e!=null)
-                            ToastUtils.show(e.getMessage());
+                        if(e!=null) {
+                            if(e.getCode() == 0){
+                                articleInfo.setZan(1);
+                            }else {
+                                ToastUtils.show(e.getMessage());
+                            }
+                        }
                     }
                 });
     }

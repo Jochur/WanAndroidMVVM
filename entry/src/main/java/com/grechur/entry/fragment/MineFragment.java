@@ -1,20 +1,29 @@
 package com.grechur.entry.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.util.SpUtils;
+import com.grechur.entry.FilterActivity;
 import com.grechur.entry.R;
 import com.grechur.entry.RankActivity;
 import com.grechur.entry.bean.OptionsInfo;
 import com.grechur.entry.databinding.EntryFragmentMineBinding;
 import com.grechur.entry.viewmodel.MineViewModel;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * @ProjectName: WanAndroidMVVM
@@ -27,7 +36,7 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
 
     private OptionsInfo userOption;
     private String userName;
-
+    private static final int REQUEST_CODE_IMAGE = 100;
     @Override
     protected void initView(Bundle savedInstanceState) {
         userName = SpUtils.getString(getContext(),"userName","");
@@ -36,6 +45,12 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
         binding.entryCollect.setOptions(getCollectOption());
         binding.entrySet.setOptions(getSetOption());
         binding.entryRank.setOptions(getRankOption());
+        binding.entryCollect.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadService.showSuccess();
+            }
+        },100);
     }
 
     @Override
@@ -72,7 +87,13 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
                             .build(RouterSchame.LOGIN_ACTIVITY)
                             .navigation();
                 }else{
-
+                    if(TextUtils.isEmpty(SpUtils.getString(getContext(),"userImg",""))){
+                        Intent intent = new Intent(
+                                Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        );
+                        startActivityForResult(intent,REQUEST_CODE_IMAGE);
+                    }
                 }
             }
         });
@@ -128,5 +149,39 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
             }
         });
         return optionsInfo;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == REQUEST_CODE_IMAGE){
+                handleImageRequestResult(data);
+            }
+        }
+    }
+
+    private void handleImageRequestResult(Intent data) {
+        Uri imageUri = null;
+        if(data!=null) {
+            if (Build.VERSION.SDK_INT >= 16) {
+                if(data.getClipData()!=null){
+                    imageUri = data.getClipData().getItemAt(0).getUri();
+                }else if(data.getData()!=null){
+                    imageUri = data.getData();
+                }
+            }else{
+                if(data.getData()!=null){
+                    imageUri = data.getData();
+                }
+            }
+        }
+        if(imageUri == null){
+            return;
+        }
+        Log.e("mine","imageUri:"+imageUri.toString());
+        Intent filterIntent = new Intent(getContext(), FilterActivity.class);
+        filterIntent.putExtra("KEY_IMAGE_URI",imageUri.toString());
+        startActivity(filterIntent);
     }
 }

@@ -7,6 +7,8 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
 import com.grechur.entry.adapter.ProjectArticleAdapter;
@@ -14,6 +16,7 @@ import com.grechur.entry.bean.ArticleInfo;
 import com.grechur.entry.databinding.EntryFragmentProjectArticleBinding;
 import com.grechur.entry.viewmodel.ProjectViewArticleViewModel;
 import com.grechur.net.ApiException;
+import com.grechur.net.Empty;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -59,8 +62,11 @@ public class ProjectArticleFragment extends BaseFragment<ProjectViewArticleViewM
         viewModel.mProjectData.observe(this, new Observer<List<ArticleInfo>>() {
             @Override
             public void onChanged(List<ArticleInfo> articleInfos) {
+                loadService.showSuccess();
                 if(articleInfos!=null&&!articleInfos.isEmpty()){
                     mAdapter.notifyDataSetChanged();
+                }else{
+                    loadService.showCallback(EmptyCallback.class);
                 }
                 if(binding.projectSmartRefresh.getState()== RefreshState.Refreshing) {
                     binding.projectSmartRefresh.finishRefresh();
@@ -87,6 +93,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectViewArticleViewM
                 if(e!=null){
                     ToastUtils.show(e.getMessage());
                 }
+                loadService.showCallback(ErrorCallback.class);
             }
         });
         viewModel.projectArticle(pageNum,cid);

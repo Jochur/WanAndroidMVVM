@@ -1,7 +1,9 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.common.base.BaseViewModel;
@@ -30,7 +32,8 @@ public class HomeViewModel extends BaseViewModel {
 
     public int pageNum = 0;
     public boolean isFirst = false;
-    public HomeViewModel() {
+    public HomeViewModel(@NonNull Application application) {
+        super(application);
         Log.e("BaseFragment","HomeViewModel()");
         mLiveData.setValue(new ArrayList<ArticleInfo>());
         mLiveBanner.setValue(new ArrayList<BannerInfo>());

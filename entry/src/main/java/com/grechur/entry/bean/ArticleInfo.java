@@ -1,6 +1,10 @@
 package com.grechur.entry.bean;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import androidx.databinding.BindingAdapter;
+
+import com.grechur.entry.BR;
 
 import java.util.List;
 
@@ -11,7 +15,7 @@ import java.util.List;
  * @Author: Grechur
  * @CreateDate: 2020/5/9 17:46
  */
-public class ArticleInfo {
+public class ArticleInfo extends BaseObservable {
     private String apkLink;
     private int audit;
 
@@ -228,12 +232,14 @@ public class ArticleInfo {
         this.link = link;
     }
 
+    @Bindable
     public int getZan() {
         return zan;
     }
 
     public void setZan(int zan) {
         this.zan = zan;
+        notifyPropertyChanged(BR.zan);
     }
 
     public String getAuthor() {

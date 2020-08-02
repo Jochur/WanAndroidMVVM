@@ -15,6 +15,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.base.BaseReFragment;
+import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
 import com.grechur.common.util.GsonUtils;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
@@ -23,6 +25,7 @@ import com.grechur.entry.bean.NavigationInfo;
 import com.grechur.entry.databinding.EntryFragmentNavigationBinding;
 import com.grechur.entry.viewmodel.NavigationViewModel;
 import com.grechur.net.ApiException;
+import com.grechur.net.Empty;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -97,9 +100,12 @@ public class NavigationFragment extends BaseReFragment<NavigationViewModel, Entr
             viewModel.mData.observe(this, new Observer<List<NavigationInfo>>() {
                 @Override
                 public void onChanged(List<NavigationInfo> navigationInfos) {
+                    loadService.showSuccess();
                     if (navigationInfos != null && !navigationInfos.isEmpty()) {
                         viewModel.mNavData.addAll(navigationInfos);
                         setData(viewModel.mNavData);
+                    }else{
+                        loadService.showCallback(EmptyCallback.class);
                     }
                 }
             });
@@ -115,6 +121,7 @@ public class NavigationFragment extends BaseReFragment<NavigationViewModel, Entr
                     if (e != null) {
                         ToastUtils.show(e.getMessage());
                     }
+                    loadService.showCallback(ErrorCallback.class);
                 }
             });
         }

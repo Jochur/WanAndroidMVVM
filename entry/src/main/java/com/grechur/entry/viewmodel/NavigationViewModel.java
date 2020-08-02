@@ -1,5 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.common.base.BaseViewModel;
@@ -24,7 +27,8 @@ public class NavigationViewModel extends BaseViewModel {
 
     public List<NavigationInfo> mNavData;
 
-    public NavigationViewModel() {
+    public NavigationViewModel(@NonNull Application application) {
+        super(application);
         mNavData = new ArrayList<>();
         navigationModel = new NavigationModel(mData,mError);
         navigationModel.navigation();

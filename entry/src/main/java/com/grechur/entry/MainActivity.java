@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.grechur.common.ToolBar;
 import com.grechur.common.base.BaseActivity;
 import com.grechur.common.util.toast.ToastUtils;
@@ -90,7 +91,7 @@ public class MainActivity extends BaseActivity<MainViewModel,EntryActivityMainBi
             public void onClick(View view) {
                 ToastUtils.show("去搜索");
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,SearchActivity.class);
+                intent.setClass(MainActivity.this,TestActivity.class);
                 startActivity(intent);
             }
         });

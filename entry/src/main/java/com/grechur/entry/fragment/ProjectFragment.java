@@ -13,10 +13,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.base.BaseReFragment;
+import com.grechur.common.callback.EmptyCallback;
 import com.grechur.entry.R;
 import com.grechur.entry.bean.Children;
 import com.grechur.entry.databinding.EntryFragmentProjectBinding;
 import com.grechur.entry.viewmodel.ProjectViewModel;
+import com.grechur.net.Empty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +74,12 @@ public class ProjectFragment extends BaseReFragment<ProjectViewModel, EntryFragm
             viewModel.mTreeData.observe(this, new Observer<List<Children>>() {
                 @Override
                 public void onChanged(List<Children> children) {
+                    loadService.showSuccess();
                     if (children != null && !children.isEmpty()) {
                         viewModel.mData.addAll(children);
                         setData(viewModel.mData);
+                    }else {
+                        loadService.showCallback(EmptyCallback.class);
                     }
                 }
             });

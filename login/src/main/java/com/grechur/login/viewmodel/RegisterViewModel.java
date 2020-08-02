@@ -1,7 +1,9 @@
 package com.grechur.login.viewmodel;
 
+import android.app.Application;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.grechur.common.base.BaseViewModel;
@@ -25,7 +27,8 @@ public class RegisterViewModel extends BaseViewModel {
 
     public UserModel userModel;
 
-    public RegisterViewModel() {
+    public RegisterViewModel(@NonNull Application application) {
+        super(application);
         userModel = new UserModel();
     }
 

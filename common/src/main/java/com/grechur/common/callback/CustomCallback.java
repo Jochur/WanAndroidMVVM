@@ -1,10 +1,11 @@
 package com.grechur.common.callback;
 
+import com.grechur.common.R;
 import com.kingja.loadsir.callback.Callback;
 
 public class CustomCallback extends Callback {
     @Override
     protected int onCreateView() {
-        return 0;
+        return R.layout.error_view;
     }
 }

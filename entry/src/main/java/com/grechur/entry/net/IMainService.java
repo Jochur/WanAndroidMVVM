@@ -84,7 +84,7 @@ public interface IMainService {
     /**
      *
      */
-    @GET("/lg/collect/{id}}/json")
+    @POST("/lg/collect/{id}/json")
     Observable<BaseResponse<Empty>> collectArticle(@Path("id") int id);
 
     /**

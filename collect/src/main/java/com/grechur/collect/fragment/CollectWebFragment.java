@@ -19,8 +19,12 @@ import com.grechur.collect.view.EditDialogFragment;
 import com.grechur.collect.view.WebItemTouch;
 import com.grechur.collect.viewmodel.CollectWebViewModel;
 import com.grechur.common.base.BaseFragment;
+import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
 import com.grechur.common.contant.Constants;
 import com.grechur.common.contant.RouterSchame;
+import com.grechur.common.itemtouchhelper.DNItemTouchHelper;
+import com.grechur.common.itemtouchhelper.ItemTouchHelperCallback;
 import com.grechur.common.listener.OnItemClickListener;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.net.ApiException;
@@ -46,6 +50,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        loadService.showSuccess();
         mData = new ArrayList<>();
         mAdapter = new CollectWebAdapter(getContext(),mData);
         binding.collectRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -54,6 +59,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
         viewModel.mWebData.observe(this, new Observer<List<CollectWebInfo>>() {
             @Override
             public void onChanged(List<CollectWebInfo> collectWebInfos) {
+                loadService.showSuccess();
                 if(collectWebInfos!=null&&!collectWebInfos.isEmpty()){
                     mData.addAll(collectWebInfos);
                     mAdapter.notifyDataSetChanged();
@@ -64,6 +70,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
         viewModel.mError.observe(this, new Observer<ApiException>() {
             @Override
             public void onChanged(ApiException e) {
+                loadService.showCallback(ErrorCallback.class);
                 if(e != null){
                     if(e.getCode() == 0){
                         mData.remove(mPosition);
@@ -99,8 +106,8 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
 
         mAdapter.setItemClickListener(this);
 
-        WebItemTouch touch = new WebItemTouch();
-        ItemTouchHelper helper = new ItemTouchHelper(touch);
+        ItemTouchHelperCallback callback = new ItemTouchHelperCallback(ItemTouchHelperCallback.DRAG_FLAGS_VERTICAL,mAdapter);
+        DNItemTouchHelper helper = new DNItemTouchHelper(callback);
         helper.attachToRecyclerView(binding.collectRecycleView);
     }
 
@@ -128,7 +135,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
                     .withString(Constants.INTENT_TITLE, webInfo.getName())
                     .withString(Constants.INTENT_URL, webInfo.getLink())
                     .navigation();
-        }else if(view.getId() == R.id.iv_delete){
+        }else if(view.getId() == R.id.iv_delete || view.getId() == R.id.delete){
 
             DeleteDialogFragment dialogFragment = new DeleteDialogFragment(webInfo.getName());
             dialogFragment.setListener(new DeleteDialogFragment.OnSureClickListener() {
@@ -139,7 +146,7 @@ public class CollectWebFragment extends BaseFragment<CollectWebViewModel, Collec
                 }
             });
             dialogFragment.show(getChildFragmentManager(),"delete");
-        }else if(view.getId() == R.id.iv_edit){
+        }else if(view.getId() == R.id.iv_edit || view.getId() == R.id.more){
             EditDialogFragment editDialogFragment = new EditDialogFragment(webInfo.getName(),webInfo.getLink());
             editDialogFragment.setListener(new EditDialogFragment.OnSureClickListener() {
                 @Override

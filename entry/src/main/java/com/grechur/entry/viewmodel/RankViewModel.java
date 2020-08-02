@@ -1,5 +1,8 @@
 package com.grechur.entry.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -27,7 +30,8 @@ public class RankViewModel extends BaseViewModel {
 
     private RankModel rankModel;
 
-    public RankViewModel() {
+    public RankViewModel(@NonNull Application application) {
+        super(application);
         mData.setValue(new ArrayList<RankInfo>());
         rankModel = new RankModel(mData,mError,mCanLoad);
     }

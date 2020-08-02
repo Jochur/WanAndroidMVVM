@@ -1,19 +1,24 @@
 package com.grechur.entry.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.base.BaseReFragment;
+import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
 import com.grechur.entry.adapter.HomeAdapter;
@@ -23,6 +28,8 @@ import com.grechur.entry.bean.BannerInfo;
 import com.grechur.entry.databinding.EntryFragmentHomeBinding;
 import com.grechur.entry.viewmodel.HomeViewModel;
 import com.grechur.net.ApiException;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -39,6 +46,7 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+
         imageAdapter = new ImageAdapter(getContext(), viewModel.getBanner());
         binding.banner.setAdapter(imageAdapter)
                 .setIndicator(new CircleIndicator(getContext()))
@@ -53,9 +61,12 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
             viewModel.mLiveData.observe(this, new Observer<List<ArticleInfo>>() {
                 @Override
                 public void onChanged(List<ArticleInfo> articleInfos) {
-                    if (articleInfos != null && !articleInfos.isEmpty()) {
+                    loadService.showSuccess();
+                    if (articleInfos != null) {
 //                        Log.e("BaseFragment", " articleInfos:" + articleInfos.size());
                         mAdapter.notifyDataSetChanged();
+                    }else{
+                        loadService.showCallback(EmptyCallback.class);
                     }
                     if (binding.smartRefreshLayout.getState() == RefreshState.Loading) {
                         binding.smartRefreshLayout.finishLoadMore();
@@ -70,6 +81,7 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
         viewModel.netError.observe(this, new Observer<ApiException>() {
             @Override
             public void onChanged(ApiException e) {
+                loadService.showCallback(ErrorCallback.class);
                 ToastUtils.show(e.getMessage());
                 if(binding.smartRefreshLayout.getState() == RefreshState.Loading){
                     binding.smartRefreshLayout.finishLoadMore();
@@ -106,6 +118,10 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
             }
         });
         viewModel.onRefresh();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            binding.appBar.setOutlineProvider(null);
+            binding.ctlColl.setOutlineProvider(ViewOutlineProvider.BOUNDS);
+        }
     }
 
     @Override
@@ -128,5 +144,6 @@ public class HomeFragment extends BaseReFragment<HomeViewModel, EntryFragmentHom
     @Override
     public void onDestroy() {
         super.onDestroy();
+        binding.banner.destroy();
     }
 }

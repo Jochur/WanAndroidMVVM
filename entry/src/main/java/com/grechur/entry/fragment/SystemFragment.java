@@ -16,6 +16,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.internal.FlowLayout;
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.base.BaseReFragment;
+import com.grechur.common.callback.EmptyCallback;
+import com.grechur.common.callback.ErrorCallback;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.util.toast.ToastUtils;
 import com.grechur.entry.R;
@@ -54,9 +56,13 @@ public class SystemFragment extends BaseReFragment<SystemViewModel, EntryFragmen
             viewModel.mData.observe(this, new Observer<List<Children>>() {
                 @Override
                 public void onChanged(List<Children> children) {
+                    loadService.showSuccess();
                     if (children != null && !children.isEmpty()) {
+                        setFirst(children);
                         viewModel.mLeftData.addAll(children);
                         mAdapter.notifyDataSetChanged();
+                    }else{
+                        loadService.showCallback(EmptyCallback.class);
                     }
                 }
             });
@@ -69,6 +75,7 @@ public class SystemFragment extends BaseReFragment<SystemViewModel, EntryFragmen
                     if (e != null) {
                         ToastUtils.show(e.getMessage());
                     }
+                    loadService.showCallback(ErrorCallback.class);
                 }
             });
         }
@@ -97,6 +104,30 @@ public class SystemFragment extends BaseReFragment<SystemViewModel, EntryFragmen
             }
         });
 
+    }
+
+    private void setFirst(List<Children> children) {
+        binding.systemFlexBox.removeAllViews();
+        Children ch = children.get(0);
+        ch.setHasSelect(true);
+        List<Children> rightData = children.get(0).getChildren();
+        if(rightData!=null&&!rightData.isEmpty()){
+            for (final Children rightDatum : rightData) {
+                TagView tagView = new TagView(getContext());
+                tagView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), SystemArticleActivity.class)
+                                .putExtra("cid",rightDatum.getId())
+                                .putExtra("system_title",rightDatum.getName());
+                        startActivity(intent);
+                    }
+                });
+                tagView.setData(rightDatum);
+                binding.systemFlexBox.addView(tagView);
+            }
+        }
     }
 
     @Override

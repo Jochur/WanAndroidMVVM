@@ -1,5 +1,9 @@
 package com.grechur.common.base;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
@@ -15,10 +19,14 @@ import com.alibaba.android.arouter.launcher.ARouter;
  * @Author: Grechur
  * @CreateDate: 2020/5/7 10:59
  */
-public abstract class BaseViewModel extends ViewModel implements LifecycleObserver {
+public abstract class BaseViewModel extends AndroidViewModel implements LifecycleObserver {
     public MutableLiveData<Void> finish = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> canLoadMore = new MutableLiveData<>();
+
+    public BaseViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public void onRefresh(){
 

@@ -40,6 +40,9 @@ public class SystemAdapter extends BaseAdapter<Children,BaseViewHolder> {
     @Override
     protected void onBindVH(BaseViewHolder holder, int position) {
         Children children = mData.get(position);
+        if(children.isHasSelect()){
+            lastPosition = position;
+        }
         ViewDataBinding binding = holder.getBinding();
         binding.setVariable(BR.children,children);
         binding.setVariable(BR.adapter,this);
