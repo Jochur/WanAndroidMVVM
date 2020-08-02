@@ -1,6 +1,7 @@
 package com.grechur.login;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -10,7 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.base.BaseActivity;
 import com.grechur.common.contant.RouterSchame;
 import com.grechur.common.util.SpUtils;
@@ -22,6 +25,8 @@ import com.grechur.net.ApiException;
 
 @Route(path = RouterSchame.LOGIN_ACTIVITY)
 public class LoginActivity extends BaseActivity<LoginViewModel, LoginActivityLoginBinding> {
+    @Autowired
+    public String path;
 
 
     @Override
@@ -49,6 +54,12 @@ public class LoginActivity extends BaseActivity<LoginViewModel, LoginActivityLog
                     ToastUtils.show("登录成功");
                     SpUtils.saveString(LoginActivity.this,"userName",userInfo.getNickname());
                     SpUtils.saveString(LoginActivity.this,"userImg",userInfo.getIcon());
+                    if(!TextUtils.isEmpty(path)){
+                        ARouter.getInstance()
+                                .build(path)
+                                .with(getIntent().getExtras())
+                                .navigation();
+                    }
                     finish();
                 }
             }

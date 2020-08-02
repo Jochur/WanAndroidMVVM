@@ -15,6 +15,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.grechur.common.base.BaseFragment;
 import com.grechur.common.base.BaseReFragment;
 import com.grechur.common.contant.RouterSchame;
+import com.grechur.common.interceptors.LoginNavigationCallbackImpl;
 import com.grechur.common.util.SpUtils;
 import com.grechur.entry.FilterActivity;
 import com.grechur.entry.R;
@@ -108,19 +109,27 @@ public class MineFragment extends BaseReFragment<MineViewModel, EntryFragmentMin
         optionsInfo.setClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(userName)){
-                    ARouter.getInstance()
-                            .build(RouterSchame.LOGIN_ACTIVITY)
-                            .navigation();
-                } else {
-                    ARouter.getInstance()
-                            .build(RouterSchame.COLLECT_ACTIVITY)
-                            .navigation();
-                }
+//                if(TextUtils.isEmpty(userName)){
+//                    ARouter.getInstance()
+//                            .build(RouterSchame.LOGIN_ACTIVITY)
+//                            .navigation();
+//                } else {
+//                    ARouter.getInstance()
+//                            .build(RouterSchame.COLLECT_ACTIVITY)
+//                            .navigation();
+//                }
+                gotoCollect();
             }
         });
         return optionsInfo;
     }
+
+    private void gotoCollect() {
+        ARouter.getInstance()
+                .build(RouterSchame.COLLECT_ACTIVITY)
+                .navigation(getContext(),new LoginNavigationCallbackImpl());
+    }
+
     private OptionsInfo getSetOption(){
         OptionsInfo optionsInfo = new OptionsInfo();
         optionsInfo.setDrawableId(R.drawable.entry_setting);

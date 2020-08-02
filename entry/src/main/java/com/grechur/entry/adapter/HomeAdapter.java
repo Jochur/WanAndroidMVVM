@@ -1,18 +1,13 @@
 package com.grechur.entry.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.grechur.common.aop.LoginSection;
 import com.grechur.common.base.BaseAdapter;
 import com.grechur.common.base.BaseViewHolder;
 import com.grechur.common.contant.Constants;
@@ -36,7 +31,6 @@ import java.util.List;
  * @CreateDate: 2020/5/9 18:31
  */
 public class HomeAdapter extends BaseAdapter<ArticleInfo,BaseViewHolder> {
-
 
 
     public HomeAdapter(Context mContext, List<ArticleInfo> mData) {
@@ -74,6 +68,7 @@ public class HomeAdapter extends BaseAdapter<ArticleInfo,BaseViewHolder> {
                 .navigation();
     }
 
+    @LoginSection()
     public void imgClick(final ArticleInfo articleInfo, int position){
         MainApi.getInstance()
                 .collectArticle(articleInfo.getId())
